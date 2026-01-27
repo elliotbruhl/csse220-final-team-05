@@ -16,7 +16,7 @@ public class MainApp {
 		SwingUtilities.invokeLater(() -> {
 		new MainApp().run();
 		});
-		}
+		} // Jonathon Test GitHub
 	
 	public void run() {
 		GameWindow.show();
