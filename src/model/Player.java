@@ -28,7 +28,7 @@ public class Player {
 
     public int getX(){
         return x;
-    } 
+    }
 
     public int getY(){
         return y;
@@ -46,12 +46,28 @@ public class Player {
         this.direction = direction;
     }
 
-    public void move(){
+    public void move(int[][] tileMap, int tileWidth, int tileHeight){
+        int playerTileX = x / tileWidth;
+        int playerTileY = y / tileHeight;
+
+        if (direction == 'W' && playerTileY > 0 && tileMap[playerTileY - 1][playerTileX] == 1) {
+            return; // Blocked moving up
+        }
+        if (direction == 'S' && playerTileY < tileMap.length - 1 && tileMap[playerTileY + 1][playerTileX] == 1) {
+            return; // Blocked moving down
+        }
+        if (direction == 'A' && playerTileX > 0 && tileMap[playerTileY][playerTileX - 1] == 1) {
+            return; // Blocked moving left
+        }
+        if (direction == 'D' && playerTileX < tileMap[0].length - 1 && tileMap[playerTileY][playerTileX + 1] == 1) {
+            return; // Blocked moving right
+        }
+        
         switch (this.direction) {
             case 'W' -> y -= DY;
             case 'S' -> y += DY;
             case 'A' -> x -= DX;
             case 'D' -> x += DX;
-        }        
+        }
     }
 }

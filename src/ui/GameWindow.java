@@ -1,7 +1,6 @@
 package ui;
 
 import javax.swing.JFrame;
-import model.GameModel;
 
 /**
  * Class: GameWindow
@@ -11,11 +10,10 @@ import model.GameModel;
 
 public class GameWindow {
 	public static void show() {
-		GameModel model = new GameModel();
 		JFrame frame = new JFrame("CSSE220 Final Project");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(new GameComponent(model));
-		frame.setSize(615, 655);
+		frame.add(new GameComponent());
+		frame.setSize(610, 630);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}

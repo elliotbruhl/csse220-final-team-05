@@ -17,17 +17,15 @@ import model.*;
  */
 
 public class GameComponent extends JComponent {
-	private GameModel model;
 	private final Image BACKGROUND_IMG = new ImageIcon(getClass().getResource("backgroundImage.png")).getImage();
-	private Player p;
+	private Player player;
 	private Wall wall;
 	private Enemy enemy1;
 	private Enemy enemy2;
 
-	public GameComponent(GameModel model) {
-		this.model = model;
+	public GameComponent() {
 		wall = new Wall();
-		p = new Player();
+		player = new Player();
 		enemy1 = new Enemy(100, 100, 30, 30);
 		enemy2 = new Enemy(200, 200, 30, 30);
 		Timer timer = new Timer(100, e -> {
@@ -37,17 +35,15 @@ public class GameComponent extends JComponent {
 		});
 		timer.start();
 		addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {}
             @Override
 			public void keyReleased(KeyEvent e){
 				switch(e.getKeyCode()) {
-					case KeyEvent.VK_W -> p.setDirection('W');
-					case KeyEvent.VK_S -> p.setDirection('S');
-					case KeyEvent.VK_A -> p.setDirection('A');
-					case KeyEvent.VK_D -> p.setDirection('D');
+					case KeyEvent.VK_W -> player.setDirection('W');
+					case KeyEvent.VK_S -> player.setDirection('S');
+					case KeyEvent.VK_A -> player.setDirection('A');
+					case KeyEvent.VK_D -> player.setDirection('D');
 				}
-				p.move();
+				player.move(wall.tileMap, wall.WIDTH, wall.HEIGHT);
 				repaint();
 			}
 		});
@@ -59,7 +55,7 @@ public class GameComponent extends JComponent {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(BACKGROUND_IMG, 0, 0, getWidth(),  getHeight() , null);
-		p.drawOn(g2);
+		player.drawOn(g2);
 		wall.drawOn(g2);
 		enemy1.draw(g2);
 		enemy2.draw(g2);
