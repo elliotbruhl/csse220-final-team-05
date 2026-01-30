@@ -3,23 +3,27 @@ package model;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.lang.classfile.instruction.SwitchCase;
-
 import javax.swing.ImageIcon;
+
+/**
+ * Class: Player
+ * @author The Button Mashers - Elliot Bruhl, Jonathon Hammond, Josh Max, Phu Bui
+ * <br>Purpose: Represents the player in the game with position, size, and movement behavior.
+ */
 
 public class Player {
     private int x = 50;
     private int y = 50;
-    private  int dx = 10; 
-    private  int dy = 10;
-    private int width = 30;
-    private int height = 30;
-    private char direction; // 'U/D/L/R' 
-    private Image playerImage = new ImageIcon(getClass().getResource("player.png")).getImage();;
+    private final int DX = 10; 
+    private final int DY = 10;
+    private final int WIDTH = 30;
+    private final int HEIGHT = 30;
+    private char direction; // 'W/A/S/D' for up/left/down/right
+    private final Image PLAYER_IMAGE = new ImageIcon(getClass().getResource("player.png")).getImage();;
     
     public void drawOn(Graphics2D g2){
         g2.setColor(Color.BLACK);
-        g2.drawImage(playerImage, x, y, width, height, null);
+        g2.drawImage(PLAYER_IMAGE, x, y, WIDTH, HEIGHT, null);
     } 
 
     public int getX(){
@@ -30,36 +34,24 @@ public class Player {
         return y;
     }
 
-     public int getdX(){
-        return x;
+     public int getDX(){
+        return DX;
     } 
 
-    public int getdY(){
-        return y;
+    public int getDY(){
+        return DY;
     }
+
     public void setDirection(char direction){
         this.direction = direction;
     }
+
     public void move(){
-            switch (this.direction) {
-                case 'W':
-                    y -= dy;
-                    break;
-                case 'S':
-                    y += dy;
-                    break;
-                case 'A':
-                    x -= dx;
-                    break;
-                case 'D':
-                    x += dx;
-                    break;
-                default:
-                    break;
-            }        
+        switch (this.direction) {
+            case 'W' -> y -= DY;
+            case 'S' -> y += DY;
+            case 'A' -> x -= DX;
+            case 'D' -> x += DX;
+        }        
     }
-
-    
-
-
 }
