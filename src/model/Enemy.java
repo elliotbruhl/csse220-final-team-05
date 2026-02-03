@@ -12,10 +12,10 @@ import javax.swing.ImageIcon;
  */
 
 public class Enemy {
-    private int x; 
-    private int y;
-    private final int WIDTH; 
-    private final int HEIGHT;
+    public int x; 
+    public int y;
+    public final int WIDTH; 
+    public final int HEIGHT;
     private int dx = 10;
     private int dy = 10;
     private final Image ENEMY_IMAGE;
@@ -35,15 +35,17 @@ public class Enemy {
 
     public void moveX(){
         x += dx;
-        if (x >= 570 || x <= 0){
+        if (x <= 0 || x >= 590){
             dx = -dx;
         }    
     }
 
     public void moveY(){
         y += dy;
-        if (y >= 580 || y <= 0){
+        if (y >= 560 || y <= 0){
             dy = -dy;
         }
     }
+
+    
 }
