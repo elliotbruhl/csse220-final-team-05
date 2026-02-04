@@ -86,7 +86,7 @@ public class GameModel {
         if (player.isLosingGame()){
             g2.setColor(Color.RED);
             g2.setFont(new Font("Arial", Font.BOLD, 50));
-            g2.drawString("GAME OVER", 180, 300);
+            g2.drawString("GAME OVER", 150, 250);
         }
 
     }
