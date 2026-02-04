@@ -35,17 +35,15 @@ public class Enemy {
 
     public void moveX(){
         x += dx;
-        if (x <= 0 || x >= 590){
+        if (x <= 160 || x >= 430){
             dx = -dx;
         }    
     }
 
     public void moveY(){
         y += dy;
-        if (y >= 560 || y <= 0){
+        if (y >= 490 || y <= 0){
             dy = -dy;
         }
     }
-
-    
 }

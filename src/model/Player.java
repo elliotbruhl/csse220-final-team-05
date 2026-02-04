@@ -29,8 +29,8 @@ public class Player {
         g2.setColor(Color.BLACK);
         g2.drawImage(PLAYER_IMAGE, x, y, WIDTH, HEIGHT, null);
         g2.setFont(new Font("Serif", Font.BOLD, 20));
-        g2.drawString("Score: " + String.valueOf(this.score), 0, 20);
-        g2.drawString("Lives: ", 85, 15);
+        g2.drawString("Score: " + String.valueOf(this.score), 0, 17);
+        g2.drawString("Lives: ", 85, 17);
 
         int xCor = 150;
         for (int i = 0; i < this.lives; i++){

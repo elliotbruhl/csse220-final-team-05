@@ -1,8 +1,5 @@
 package ui;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Color;
-
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
@@ -34,11 +31,19 @@ public class GameComponent extends JComponent {
 			else{
 				timer.stop();
 			}
+			for	(Enemy enemy : model.getEnemies()){
+				if (model.playerCollidesWithEnemy(enemy)){
+					model.resetPlayerPosition();
+					model.playerLosesOneLive();
+				}
+			}
 			
 		});
 		timer.start();
+	
 		addKeyListener(new KeyAdapter() {
-            @Override
+            
+			@Override
 			public void keyReleased(KeyEvent e){
 				if (model.playerLosingGame()){
 					return;
@@ -49,7 +54,7 @@ public class GameComponent extends JComponent {
 					case KeyEvent.VK_A -> model.setPlayerDirection('A');
 					case KeyEvent.VK_D -> model.setPlayerDirection('D');
 				}
-				boolean canMove = true;
+				
 				model.updatePlayer();
 		  		for (Block block : model.getBlocks()){
 					if (model.playerCollidesWithWall(block)){
@@ -57,24 +62,16 @@ public class GameComponent extends JComponent {
 						break;
 					}
         		}
-				
 				for (int i = model.getItems().size() - 1; i >= 0; i--) {
 					Item item = model.getItems().get(i);
 
 					if (model.playerCollidesWithItem(item)) {
-						model.getPlayer().increaseScore();
+						model.increasePlayerScore();
 						model.getItems().remove(i);
 					}
-				}
-
-				for	(Enemy enemy : model.getEnemies()){
-					if (model.playerCollidesWithEnemy(enemy)){
-						model.resetPlayerPosition();
-						model.getPlayer().loseOneLive();
-					}
-				}
+				}	
 				repaint();
-				} 
+				}			
 		});
 		setFocusable(true);	
 	}

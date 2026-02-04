@@ -1,12 +1,5 @@
 package model;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.Timer;
 import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.Color;
@@ -20,13 +13,13 @@ public class GameModel {
     public GameModel(){
         wall = new Wall();
 		player = new Player();
-		enemy1 = new Enemy(100, 100, 30, 30);
+		enemy1 = new Enemy(180, 85, 30, 30);
 		enemy2 = new Enemy(200, 200, 30, 30);
         items = new ArrayList<>();
         enemies = new Enemy[2];
-        items.add(new Item(70, 200));
+        items.add(new Item(150, 200));
         items.add(new Item(400, 20));
-        items.add(new Item(200, 100));  
+        items.add(new Item(300, 100));  
         enemies[0] = enemy1;
         enemies[1] = enemy2;
     }
@@ -35,16 +28,18 @@ public class GameModel {
     	enemy1.moveX();
         enemy2.moveY();
     }
-        
+    
+    // Method to handle player collision and logic 
+    public void playerLosesOneLive(){
+        player.loseOneLive();
+    }
     
     public void setPlayerDirection(char dir){
         player.setDirection(dir);
     }
 
     public void updatePlayer(){
-        // player.move(wall.tileMap, wall.WIDTH, wall.HEIGHT);
         player.move();
-
     }
 
     public void returnPlayerToLasPos(){
@@ -59,33 +54,24 @@ public class GameModel {
         return player.isLosingGame();
     }
     public boolean playerCollidesWithWall(Block block) {
-        int newX = player.getX();
-        int newY = player.getY();
-
-        return newX < block.x + block.width &&
-            newX + player.WIDTH > block.x &&
-            newY < block.y + block.height && 
-            newY + player.HEIGHT > block.y;
+        return player.getX() < block.x + block.width &&
+            player.getX() + player.WIDTH > block.x &&
+            player.getY() < block.y + block.height && 
+            player.getY() + player.HEIGHT > block.y;
     }
 
     public boolean playerCollidesWithItem(Item item) {
-        int newX = player.getX();
-        int newY = player.getY();
-
-        return newX < item.x + item.width &&
-            newX + player.WIDTH > item.x &&
-            newY < item.y + item.height && 
-            newY + player.HEIGHT > item.y;
+        return player.getX() < item.x + item.width &&
+            player.getX() + player.WIDTH > item.x &&
+            player.getY() < item.y + item.height && 
+            player.getY() + player.HEIGHT > item.y;
     }
 
     public boolean playerCollidesWithEnemy(Enemy enemy) {
-        int newX = player.getX();
-        int newY = player.getY();
-
-        return newX < enemy.x + enemy.WIDTH &&
-            newX + player.WIDTH > enemy.x &&
-            newY < enemy.y + enemy.HEIGHT && 
-            newY + player.HEIGHT > enemy.y;
+        return player.getX() < enemy.x + enemy.WIDTH &&
+            player.getX() + player.WIDTH > enemy.x &&
+            player.getY() < enemy.y + enemy.HEIGHT && 
+            player.getY() + player.HEIGHT > enemy.y;
     }
 
     public void draw(Graphics2D g2){
@@ -105,13 +91,18 @@ public class GameModel {
 
     }
 
-    // Getter methods
-    public Enemy getEnemy1() { return enemy1; }
-    public Enemy getEnemy2() { return enemy2; }
-    public ArrayList<Item> getItems() { return items; }
+    public void increasePlayerScore(){
+        player.increaseScore();
+    }
 
-    public Player getPlayer() { return player; }
-    public Wall getWall() { return wall; }
+
+    // Getter methods
+    // public Enemy getEnemy1() { return enemy1; }
+    // public Enemy getEnemy2() { return enemy2; }
+
+    // public Player getPlayer() { return player; }
+    // public Wall getWall() { return wall; }
+    public ArrayList<Item> getItems() { return items; }
     public ArrayList<Block> getBlocks() {return wall.blocks;}
     public Enemy[] getEnemies() {return enemies;}
 
