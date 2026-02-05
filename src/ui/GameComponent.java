@@ -8,9 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 import model.Block;
-import model.Item;
 import model.GameModel;
-import model.Enemy;
+import model.GameEntity;
 /**
  * Class: GameComponent
  * @author The Button Mashers - Elliot Bruhl, Jonathon Hammond, Josh Max, Phu Bui
@@ -31,8 +30,8 @@ public class GameComponent extends JComponent {
 			else{
 				timer.stop();
 			}
-			for	(Enemy enemy : model.getEnemies()){
-				if (model.playerCollidesWithEnemy(enemy)){
+			for	(GameEntity enemy : model.getEnemies()){
+				if (model.handleCollision(model.getPlayer(), enemy)){
 					model.resetPlayerPosition();
 					model.playerLosesOneLive();
 				}
@@ -57,15 +56,15 @@ public class GameComponent extends JComponent {
 				
 				model.updatePlayer();
 		  		for (Block block : model.getBlocks()){
-					if (model.playerCollidesWithWall(block)){
+					if (model.handleCollision(model.getPlayer(), block)){
 						model.returnPlayerToLasPos();
 						break;
 					}
         		}
 				for (int i = model.getItems().size() - 1; i >= 0; i--) {
-					Item item = model.getItems().get(i);
+					GameEntity item = model.getItems().get(i);
 
-					if (model.playerCollidesWithItem(item)) {
+					if (model.handleCollision(model.getPlayer(), item)) {
 						model.increasePlayerScore();
 						model.getItems().remove(i);
 					}

@@ -64,17 +64,8 @@ public class Wall {
 
     public void draw(Graphics2D g2){
         for (int i = 0; i < blocks.size(); i++){
-            g2.drawImage(BLOCK_IMG, blocks.get(i).x, blocks.get(i).y, blocks.get(i).width, blocks.get(i).height, null);
+            g2.drawImage(BLOCK_IMG, blocks.get(i).getX(), blocks.get(i).getY(), 
+                        blocks.get(i).getWidth(), blocks.get(i).getHeight(), null);
         }
     }
-
-    // int[][] makeTileMap() {
-    //     int[][] map = new int[30][30];
-    //     for (int r = 0; r < map.length; r++) {
-    //         for (int c = 0; c < map[r].length; c++) {
-    //             if (r == 0 || r == map.length - 1 || c == 0 || c == map[r].length - 1) map[r][c] = 1;
-    //         }
-    //     }
-    //     return map;
-    // }
 }

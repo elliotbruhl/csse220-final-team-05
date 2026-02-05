@@ -12,22 +12,21 @@ import java.awt.Font;
  * <br>Purpose: Represents the player in the game with position, size, and movement behavior.
  */
 
-public class Player {
-    private int x = 30;
-    private int y = 20;
-    private final int DX = 10; 
-    private final int DY = 10;
-    public final int WIDTH = 30;
-    public final int HEIGHT = 30;
+public class Player extends GameEntity{
+    public Player(int x, int y, int WIDTH, int HEIGHT, int dx, int dy) {
+        super(x, y, WIDTH, HEIGHT, "player.png", dx, dy);
+        //TODO Auto-generated constructor stub
+    }
     private char direction; // 'W/A/S/D' for up/left/down/right
     private int score;
     private int lives = 3;
-    private final Image PLAYER_IMAGE = new ImageIcon(getClass().getResource("player.png")).getImage();;
-    private final Image HEART = new ImageIcon(getClass().getResource("heart.png")).getImage();;
+    private final Image PLAYER_IMAGE = new ImageIcon(getClass().getResource("player.png")).getImage();
+    private final Image HEART = new ImageIcon(getClass().getResource("heart.png")).getImage();
 
+    @Override
     public void draw(Graphics2D g2){
         g2.setColor(Color.BLACK);
-        g2.drawImage(PLAYER_IMAGE, x, y, WIDTH, HEIGHT, null);
+        g2.drawImage(this.PLAYER_IMAGE, super.getX(), super.getY(), super.getWidth(), super.getHeight(), null);
         g2.setFont(new Font("Serif", Font.BOLD, 20));
         g2.drawString("Score: " + String.valueOf(this.score), 0, 17);
         g2.drawString("Lives: ", 85, 17);
@@ -38,7 +37,7 @@ public class Player {
             xCor += 35;
         }
 
-    } 
+    }
     public void loseOneLive(){
         this.lives -= 1;
     }
@@ -50,61 +49,62 @@ public class Player {
         return this.lives == 0;
     }
 
-    public int getX(){
-        return x;
-    }
+    // public int getX(){
+    //     return x;
+    // }
 
-    public int getY(){
-        return y;
-    }
+    // public int getY(){
+    //     return y;
+    // }
 
-     public int getDX(){
-        return DX;
-    } 
+    //  public int getDX(){
+    //     return DX;
+    // } 
 
-    public int getDY(){
-        return DY;
-    }
+    // public int getDY(){
+    //     return DY;
+    // }
 
     public void setDirection(char direction){
         this.direction = direction;
     }
-
+    
     public void resetPosition(){
-        this.x = 30;
-        this.y = 20;
+        super.setX(30); 
+        super.setY(20);
     }
+    @Override
     public void move(/*int[][] tileMap, int tileWidth, int tileHeight*/){
         // int playerTileX = x / tileWidth;
         // int playerTileY = y / tileHeight;
 
-        if (direction == 'W' && this.y < 0) {
+        if (direction == 'W' && super.getY() < 0) {
             return; // Blocked moving up
         }
-        if (direction == 'S' && this.y > 610) {
+        if (direction == 'S' && super.getY() > 610) {
             return; // Blocked moving down
         }
-        if (direction == 'A' && this.x < 0) {
+        if (direction == 'A' && super.getX() < 0) {
             return; // Blocked moving left
         }
-        if (direction == 'D' && this.x > 590) {
+        if (direction == 'D' && super.getX() > 590) {
             return; // Blocked moving right
         }
         
         switch (this.direction) {
-            case 'W' -> y -= DY;
-            case 'S' -> y += DY;
-            case 'A' -> x -= DX;
-            case 'D' -> x += DX;
+            case 'W' -> super.setY(super.getY() - super.getDY());
+            case 'S' -> super.setY(super.getY() + super.getDY());
+            case 'A' ->super.setX(super.getX() - super.getDX());
+            case 'D' ->super.setX(super.getX() + super.getDX());
         }
     }
 
     public void returnToPos(){
          switch (this.direction) {
-            case 'W' -> y += DY;
-            case 'S' -> y -= DY;
-            case 'A' -> x += DX;
-            case 'D' -> x -= DX;
+            case 'W' -> super.setY(super.getY() + super.getDY());
+            case 'S' -> super.setY(super.getY() - super.getDY());
+            case 'A' ->super.setX(super.getX() + super.getDX());
+            case 'D' ->super.setX(super.getX() - super.getDX());
         }
     }
 }
