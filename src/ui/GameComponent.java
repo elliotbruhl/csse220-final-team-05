@@ -55,7 +55,7 @@ public class GameComponent extends JComponent {
 				}
 				
 				model.updatePlayer();
-		  		for (Block block : model.getBlocks()){
+		  		for (GameEntity block : model.getBlocks()){
 					if (model.handleCollision(model.getPlayer(), block)){
 						model.returnPlayerToLasPos();
 						break;

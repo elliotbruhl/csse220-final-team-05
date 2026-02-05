@@ -85,6 +85,6 @@ public class GameModel {
 
     public GameEntity getPlayer() { return player; }
     public ArrayList<GameEntity> getItems() { return items; }
-    public ArrayList<Block> getBlocks() {return wall.blocks;}
+    public ArrayList<GameEntity> getBlocks() {return wall.getWallBlocks();}
     public GameEntity[] getEnemies() {return enemies;}
 }

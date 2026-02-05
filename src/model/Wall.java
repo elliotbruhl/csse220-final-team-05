@@ -46,7 +46,7 @@ public class Wall {
     "..............................",
     ".............................."};
 
-    public ArrayList<Block> blocks = new ArrayList<>();
+    private ArrayList<GameEntity> blocks = new ArrayList<>();
     private final Image BLOCK_IMG = new ImageIcon(getClass().getResource("block.png")).getImage();
 
     public Wall(){
@@ -59,9 +59,12 @@ public class Wall {
             }
         }
         blocks.add(new Block(500, 100, WIDTH, HEIGHT));
-
     }  
-
+    
+    public ArrayList<GameEntity> getWallBlocks(){
+    	return blocks;
+    }
+    
     public void draw(Graphics2D g2){
         for (int i = 0; i < blocks.size(); i++){
             g2.drawImage(BLOCK_IMG, blocks.get(i).getX(), blocks.get(i).getY(), 
