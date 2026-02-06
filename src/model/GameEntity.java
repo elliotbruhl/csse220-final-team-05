@@ -59,16 +59,11 @@ public abstract class GameEntity {
     public void setY(int newY){
         this.y = newY;
     }
-    public void move(){
-        x += dx;
-        y += dy;
-        if (x <= 160 || x >= 430){
-            dx = -dx;
-        }    
-        if (y >= 490 || y <= 0){
-            dy = -dy;
-        }
+    
+    public void move(String[] tileMap, int width, int height) {
+    	
     }
+    
     public void draw(Graphics2D g2){
         g2.drawImage(EntityImg, x, y, WIDTH, HEIGHT, null);
     }

@@ -13,8 +13,8 @@ public class GameModel {
     public GameModel(){
         wall = new Wall();
 		player = new Player(30, 20, 30, 30, 10, 10);
-		enemy1 = new Enemy(180, 85, 30, 30, 10, 0);
-		enemy2 = new Enemy(200, 200, 30, 30, 0, 10);
+		enemy1 = new Enemy(180, 85, 30, 30, 15, 15);
+		enemy2 = new Enemy(200, 200, 30, 30, 15, 15);
         items = new ArrayList<>();
         enemies = new Enemy[2];
         items.add(new Item(150, 200));
@@ -25,8 +25,8 @@ public class GameModel {
     }
 
     public void updateEnemy(){
-    	enemy1.move();
-        enemy2.move();
+    	enemy1.move(wall.tileMap, wall.WIDTH, wall.HEIGHT);
+        enemy2.move(wall.tileMap, wall.WIDTH, wall.HEIGHT);
     }
     
     // Method to handle player collision and logic 
@@ -39,7 +39,7 @@ public class GameModel {
     }
 
     public void updatePlayer(){
-        player.move();
+       ((Player) player).movePlayer();
     }
 
     public void returnPlayerToLasPos(){

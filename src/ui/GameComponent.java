@@ -20,12 +20,14 @@ public class GameComponent extends JComponent {
 	private final Image BACKGROUND_IMG = new ImageIcon(getClass().getResource("backgroundImage.png")).getImage();
 	private GameModel model;
 	private Timer timer;
+	private int counter = 0;
 	public GameComponent() {
 		this.model = new GameModel();
 		timer = new Timer(100, e -> {
 			if (!model.playerLosingGame()){
-				model.updateEnemy();
+				if(counter % 4 == 0) model.updateEnemy();
 				repaint();
+				counter ++;
 			}
 			else{
 				timer.stop();
