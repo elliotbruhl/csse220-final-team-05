@@ -1,8 +1,8 @@
 package model;
 
-import javax.swing.ImageIcon;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import javax.swing.ImageIcon;
 
 public abstract class GameEntity {
     private int x; 
@@ -22,7 +22,12 @@ public abstract class GameEntity {
         this.imageSource = imageSource;
         this.dx = dx;
         this.dy = dy;
-        EntityImg = new ImageIcon(getClass().getResource(this.imageSource)).getImage();
+        try {
+            EntityImg = new ImageIcon(getClass().getResource(this.imageSource)).getImage();
+        }
+        catch (Exception e) {
+            System.out.println("Image not found: " + this.imageSource);
+        }
     }
 
     public Image getImage(){

@@ -1,10 +1,10 @@
 package model;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import java.awt.Font;
 
 /**
  * Class: Player
@@ -13,15 +13,22 @@ import java.awt.Font;
  */
 
 public class Player extends GameEntity{
-    public Player(int x, int y, int WIDTH, int HEIGHT, int dx, int dy) {
-        super(x, y, WIDTH, HEIGHT, "player.png", dx, dy);
-        //TODO Auto-generated constructor stub
-    }
     private char direction; // 'W/A/S/D' for up/left/down/right
     private int score;
     private int lives = 3;
     private final Image PLAYER_IMAGE = new ImageIcon(getClass().getResource("player.png")).getImage();
-    private final Image HEART = new ImageIcon(getClass().getResource("heart.png")).getImage();
+    private Image HEART;
+    
+    public Player(int x, int y, int WIDTH, int HEIGHT, int dx, int dy) {
+        super(x, y, WIDTH, HEIGHT, "player.png", dx, dy);
+        try {
+            HEART = new ImageIcon(getClass().getResource("heart.png")).getImage();
+        }
+        catch (Exception e) {
+            System.out.println("Error loading heart image: " + e.getMessage());
+        }
+    }
+    
 
     @Override
     public void draw(Graphics2D g2){
