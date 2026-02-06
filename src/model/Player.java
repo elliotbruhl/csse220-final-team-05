@@ -48,23 +48,6 @@ public class Player extends GameEntity{
     public boolean isLosingGame(){
         return this.lives == 0;
     }
-
-    // public int getX(){
-    //     return x;
-    // }
-
-    // public int getY(){
-    //     return y;
-    // }
-
-    //  public int getDX(){
-    //     return DX;
-    // } 
-
-    // public int getDY(){
-    //     return DY;
-    // }
-
     public void setDirection(char direction){
         this.direction = direction;
     }

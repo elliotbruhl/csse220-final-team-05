@@ -8,6 +8,7 @@ public class GameModel {
 	private Wall wall;
 	private GameEntity enemy1;
 	private GameEntity enemy2;
+
     private ArrayList<GameEntity> items;
     private GameEntity[] enemies;
     public GameModel(){
@@ -42,8 +43,8 @@ public class GameModel {
         player.move();
     }
 
-    public void returnPlayerToLasPos(){
-        ((Player) player).returnToPos();
+    public void returnPlayerToLastPos(){
+        ((Player)player).returnToPos();
     }
 
     public void resetPlayerPosition(){
@@ -82,6 +83,13 @@ public class GameModel {
     public void increasePlayerScore(){
         ((Player) player).increaseScore();
     }
+
+    // public void updateEnemyDirection(){
+    //     for (GameEntity enemy : enemies){
+    //         enemy.returnToPos();
+    //         ((Enemy) enemy).moveRandomly((new Random()).nextInt(4));
+    //     }
+    // }
 
     public GameEntity getPlayer() { return player; }
     public ArrayList<GameEntity> getItems() { return items; }

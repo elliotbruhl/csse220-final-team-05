@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.Timer;
-import model.Block;
 import model.GameModel;
 import model.GameEntity;
 /**
@@ -35,6 +34,11 @@ public class GameComponent extends JComponent {
 					model.resetPlayerPosition();
 					model.playerLosesOneLive();
 				}
+				// for (GameEntity block : model.getBlocks()){
+				// 	if (model.handleCollision(enemy, block)){
+				// 		model.updateEnemyDirection();
+				// 	}
+				// }  
 			}
 			
 		});
@@ -57,7 +61,7 @@ public class GameComponent extends JComponent {
 				model.updatePlayer();
 		  		for (GameEntity block : model.getBlocks()){
 					if (model.handleCollision(model.getPlayer(), block)){
-						model.returnPlayerToLasPos();
+						model.returnPlayerToLastPos();
 						break;
 					}
         		}
