@@ -1,49 +1,54 @@
 package model;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-
+import java.util.*;
 /**
  * Class: Enemy
  * @author The Button Mashers - Elliot Bruhl, Jonathon Hammond, Josh Max, Phu Bui
  * <br>Purpose: Represents an enemy in the game with position, size, and movement behavior.
  */
 
-public class Enemy {
-    private int x; 
-    private int y;
-    private final int WIDTH; 
-    private final int HEIGHT;
-    private int dx = 10;
-    private int dy = 10;
-    private final Image ENEMY_IMAGE;
-
-    public Enemy(int x, int y, int width, int height) {
-		this.x = x;
-		this.y = y;
-        this.WIDTH = width;
-        this.HEIGHT = height;
-        ENEMY_IMAGE = new ImageIcon(getClass().getResource("zombie.png")).getImage();
-	}
+public class Enemy extends GameEntity{
+	
+    private int dx;
+    private int dy;
     
-	public void draw(Graphics2D g2) {
-		g2.setColor(Color.RED);
-        g2.drawImage(ENEMY_IMAGE, x, y, WIDTH, HEIGHT, null);
+    public Enemy(int x, int y, int width, int height, int dx, int dy) {
+        super(x, y, width, height, "zombie.png", dx, dy);
     }
+    
+    @Override
+    public void move(String[] tileMap, int tileWidth, int tileHeight) {
+		int tileX = getX() / tileWidth;
+		int tileY = getY() / tileHeight;
+		
+		if(tileX <= 0 || tileY <= 0 || tileX >= tileMap[0].length()-1 || tileY >= tileMap.length-1) {
+			System.out.println("Bad Index");
+			return;
+		}
 
-    public void moveX(){
-        x += dx;
-        if (x >= 570 || x <= 0){
-            dx = -dx;
-        }    
-    }
-
-    public void moveY(){
-        y += dy;
-        if (y >= 580 || y <= 0){
-            dy = -dy;
-        }
-    }
+		ArrayList<Integer> possibleDir = new ArrayList<>();
+		if(tileMap[tileY-1].charAt(tileX) != 'X') possibleDir.add(0);
+		if(tileMap[tileY].charAt(tileX-1) != 'X') possibleDir.add(1);
+		if(tileMap[tileY+1].charAt(tileX) != 'X') possibleDir.add(2);
+		if(tileMap[tileY].charAt(tileX+1) != 'X') possibleDir.add(3);
+		
+		if(possibleDir.isEmpty()) return;
+		
+		int direction = possibleDir.get((int)(Math.random() * possibleDir.size()));
+		
+		switch (direction) {
+			case 0:
+				setY(getY()-getDY());
+				break;
+			case 1:
+				setX(getX()-getDX());
+				break;
+			case 2:
+				setY(getY()+getDY());
+				break;
+			case 3:
+				setX(getX()+getDX());
+				break;
+		}
+	}
 }

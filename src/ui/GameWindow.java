@@ -13,7 +13,7 @@ public class GameWindow {
 		JFrame frame = new JFrame("CSSE220 Final Project");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(new GameComponent());
-		frame.setSize(610, 630);
+		frame.setSize(610, 555);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
