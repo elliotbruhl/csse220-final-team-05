@@ -1,4 +1,6 @@
 package model;
+
+import java.util.*;
 /**
  * Class: Enemy
  * @author The Button Mashers - Elliot Bruhl, Jonathon Hammond, Josh Max, Phu Bui
