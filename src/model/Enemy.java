@@ -8,9 +8,6 @@ import java.util.*;
  */
 
 public class Enemy extends GameEntity{
-	
-    private int dx;
-    private int dy;
     
     public Enemy(int x, int y, int width, int height, int dx, int dy) {
         super(x, y, width, height, "zombie.png", dx, dy);
@@ -50,5 +47,9 @@ public class Enemy extends GameEntity{
 				setX(getX()+getDX());
 				break;
 		}
+	}
+	public void setPosition(int x, int y) {
+		setX(x);
+		setY(y);
 	}
 }

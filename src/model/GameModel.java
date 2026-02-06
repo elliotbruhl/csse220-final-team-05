@@ -1,8 +1,8 @@
 package model;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.awt.Font;
-import java.awt.Color;
 public class GameModel {
     private GameEntity player;
 	private Wall wall;
@@ -75,10 +75,25 @@ public class GameModel {
             g2.setColor(Color.RED);
             g2.setFont(new Font("Arial", Font.BOLD, 50));
             g2.drawString("GAME OVER", 150, 250);
+
+            g2.setFont(new Font("Arial", Font.PLAIN, 20));
+            g2.drawString("Press R to Restart", 180, 290);
         }
 
     }
+    public void resetGame(){
+        System.out.println("Resetting Game...");
 
+        ((Player) player).resetPlayer();
+        ((Enemy) enemy1).setPosition(180, 85);
+        ((Enemy) enemy2).setPosition(200, 200);
+
+        items.clear();
+        items.add(new Item(150, 200));
+        items.add(new Item(400, 20));
+        items.add(new Item(300, 100));
+    }
+    
     public void increasePlayerScore(){
         ((Player) player).increaseScore();
     }

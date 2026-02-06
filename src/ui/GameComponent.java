@@ -34,9 +34,6 @@ public class GameComponent extends JComponent {
 				repaint();
 				counter ++;
 			}
-			else{
-				timer.stop();
-			}
 			for	(GameEntity enemy : model.getEnemies()){
 				if (model.handleCollision(model.getPlayer(), enemy)){
 					model.resetPlayerPosition();
@@ -52,6 +49,9 @@ public class GameComponent extends JComponent {
 			@Override
 			public void keyReleased(KeyEvent e){
 				if (model.playerLosingGame()){
+					if (e.getKeyCode() == KeyEvent.VK_R) {
+						model.resetGame();
+					}
 					return;
 				}
 				switch(e.getKeyCode()) {

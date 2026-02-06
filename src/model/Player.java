@@ -75,6 +75,12 @@ public class Player extends GameEntity{
     public void setDirection(char direction){
         this.direction = direction;
     }
+
+    public void resetPlayer() {
+        this.score = 0;
+        this.lives = 3;
+        resetPosition();
+    }
     
     public void resetPosition(){
         super.setX(30); 
