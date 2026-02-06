@@ -67,7 +67,15 @@ public abstract class GameEntity {
     public void setDy(int newDy){
         this.dy = newDy;
     }
-    public void move(){
+    public void setDirection(char direction){
+        this.direction = direction;
+    }
+
+    public void draw(Graphics2D g2){
+        g2.drawImage(EntityImg, x, y, WIDTH, HEIGHT, null);
+    }
+
+    public void move() {
         x += dx;
         y += dy;
         if (x <= 160 || x >= 430){
@@ -77,22 +85,4 @@ public abstract class GameEntity {
             dy = -dy;
         }
     }
-
-    public void setDirection(char direction){
-        this.direction = direction;
-    }
-
-    public void returnToPos(){
-        switch (this.direction) {
-            case 'W' -> y = y + dy;
-            case 'S' -> y = y - dy;
-            case 'A' ->x = x + dx;
-            case 'D' ->y = y - dy;
-        }
-    }
-
-    public void draw(Graphics2D g2){
-        g2.drawImage(EntityImg, x, y, WIDTH, HEIGHT, null);
-    }
-
 }

@@ -56,7 +56,7 @@ public class Player extends GameEntity{
         super.setX(30); 
         super.setY(20);
     }
-    @Override
+    
     public void move(/*int[][] tileMap, int tileWidth, int tileHeight*/){
         // int playerTileX = x / tileWidth;
         // int playerTileY = y / tileHeight;

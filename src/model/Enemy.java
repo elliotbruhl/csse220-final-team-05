@@ -11,13 +11,13 @@ public class Enemy extends GameEntity{
         super(x, y, width, height, "zombie.png", dx, dy);
     }
 
-    public void moveRandomly(int randomNum){
-        switch (directions[randomNum]) {
-            case 'U' ->super.setDx(Math.abs(super.getDY()));
-            case 'D' ->super.setY(-Math.abs(super.getDX()));
-            case 'R' ->super.setX(-Math.abs(super.getDY()));
-            case 'L' ->super.setX(Math.abs(super.getDX()));
-        }
-    }
+    // public void moveRandomly(int randomNum){
+    //     switch (directions[randomNum]) {
+    //         case 'U' ->super.setDx(Math.abs(super.getDY()));
+    //         case 'D' ->super.setY(-Math.abs(super.getDX()));
+    //         case 'R' ->super.setX(-Math.abs(super.getDY()));
+    //         case 'L' ->super.setX(Math.abs(super.getDX()));
+    //     }
+    // }
     
 }
