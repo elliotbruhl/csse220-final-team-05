@@ -13,7 +13,7 @@ public abstract class GameEntity {
     private int HEIGHT;
     private String imageSource;
     private Image EntityImg;
-    private char direction;
+
     public GameEntity(int x, int y, int WIDTH, int HEIGHT, String imageSource, int dx, int dy){
         this.x = x;
         this.y = y;
@@ -57,6 +57,14 @@ public abstract class GameEntity {
         return this.dy;
     }
 
+    public void setDx(int newDx){
+        this.dx = newDx; 
+    }
+
+    public void setDy(int newDy){
+        this.dy = newDy;
+    }
+
     public void setX(int newX){
         this.x = newX;
     }
@@ -64,30 +72,11 @@ public abstract class GameEntity {
     public void setY(int newY){
         this.y = newY;
     }
-
-    public void setDx(int newDx){
-        this.dx = newDx;
-    }
-
-    public void setDy(int newDy){
-        this.dy = newDy;
-    }
-    public void setDirection(char direction){
-        this.direction = direction;
-    }
-
+    
+    public void updateDirection(char previousDirection) {}
+    
     public void draw(Graphics2D g2){
         g2.drawImage(EntityImg, x, y, WIDTH, HEIGHT, null);
     }
 
-    public void move() {
-        x += dx;
-        y += dy;
-        if (x <= 160 || x >= 430){
-            dx = -dx;
-        }    
-        if (y >= 490 || y <= 0){
-            dy = -dy;
-        }
-    }
 }

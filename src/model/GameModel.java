@@ -2,13 +2,13 @@ package model;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 public class GameModel {
     private GameEntity player;
 	private Wall wall;
 	private GameEntity enemy1;
 	private GameEntity enemy2;
-
     private ArrayList<GameEntity> items;
     private GameEntity[] enemies;
     public GameModel(){
@@ -26,8 +26,8 @@ public class GameModel {
     }
 
     public void updateEnemy(){
-    	enemy1.move(wall.tileMap, wall.WIDTH, wall.HEIGHT);
-        enemy2.move(wall.tileMap, wall.WIDTH, wall.HEIGHT);
+    	((Enemy) enemy1).move(/*wall.tileMap, wall.WIDTH, wall.HEIGHT*/);
+        ((Enemy) enemy2).move(/*wall.tileMap, wall.WIDTH, wall.HEIGHT*/);
     }
     
     // Method to handle player collision and logic 
@@ -43,8 +43,8 @@ public class GameModel {
        ((Player) player).movePlayer();
     }
 
-    public void returnPlayerToLastPos(){
-        ((Player)player).returnToPos();
+    public void returnPlayerToLasPos(){
+        ((Player) player).returnToPos();
     }
 
     public void resetPlayerPosition(){
@@ -99,15 +99,10 @@ public class GameModel {
         ((Player) player).increaseScore();
     }
 
-    // public void updateEnemyDirection(){
-    //     for (GameEntity enemy : enemies){
-    //         enemy.returnToPos();
-    //         ((Enemy) enemy).moveRandomly((new Random()).nextInt(4));
-    //     }
-    // }
-
     public GameEntity getPlayer() { return player; }
     public ArrayList<GameEntity> getItems() { return items; }
     public ArrayList<GameEntity> getBlocks() {return wall.getWallBlocks();}
     public GameEntity[] getEnemies() {return enemies;}
+    public String[] getTileMap() {return wall.tileMap;}
+    public char getEnemyDirection(GameEntity enemy) {return ((Enemy) enemy).getDirection();}
 }

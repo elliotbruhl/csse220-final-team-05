@@ -55,6 +55,23 @@ public class Player extends GameEntity{
     public boolean isLosingGame(){
         return this.lives == 0;
     }
+
+    // public int getX(){
+    //     return x;
+    // }
+
+    // public int getY(){
+    //     return y;
+    // }
+
+    //  public int getDX(){
+    //     return DX;
+    // } 
+
+    // public int getDY(){
+    //     return DY;
+    // }
+
     public void setDirection(char direction){
         this.direction = direction;
     }
@@ -70,7 +87,7 @@ public class Player extends GameEntity{
         super.setY(20);
     }
     
-    public void move(/*int[][] tileMap, int tileWidth, int tileHeight*/){
+    public void movePlayer(){
         // int playerTileX = x / tileWidth;
         // int playerTileY = y / tileHeight;
 
