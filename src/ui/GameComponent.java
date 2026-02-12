@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.Timer;
-import model.Block;
+import model.Enemy;
 import model.GameModel;
 import model.GameEntity;
 /**
@@ -34,6 +34,22 @@ public class GameComponent extends JComponent {
 				if (model.handleCollision(model.getPlayer(), enemy)){
 					model.resetPlayerPosition();
 					model.playerLosesOneLive();
+				}
+
+				for (GameEntity block : model.getBlocks()){
+					boolean hitX = ((Enemy) enemy).willCollideX(block);
+					boolean hitY = ((Enemy) enemy).willCollideY(block);
+					
+					if (hitX){
+						((Enemy) enemy).flipX();
+						break;
+					}
+
+					if (hitY){
+						((Enemy) enemy).flipY();
+						break;
+					}
+
 				}
 			}
 			

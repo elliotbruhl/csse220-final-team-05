@@ -9,24 +9,27 @@ public class GameModel {
 	private GameEntity enemy1;
 	private GameEntity enemy2;
     private ArrayList<GameEntity> items;
-    private GameEntity[] enemies;
+    private ArrayList<GameEntity> enemies;
+    private ArrayList<GameEntity> blocks;
+
     public GameModel(){
-        wall = new Wall();
-		player = new Player(30, 20, 30, 30, 10, 10);
-		enemy1 = new Enemy(180, 85, 30, 30, 10, 0);
-		enemy2 = new Enemy(200, 200, 30, 30, 0, 10);
+        blocks = new ArrayList<>();
+        enemies = new ArrayList<>();
         items = new ArrayList<>();
-        enemies = new Enemy[2];
+        wall = new Wall(blocks);
+		player = new Player(30, 20, 30, 30, 10, 10);
+		enemy1 = new Enemy(180, 85, 30, 30, 10, 10);
+		enemy2 = new Enemy(200, 200, 30, 30, 10, 10);
         items.add(new Item(150, 200));
         items.add(new Item(400, 20));
         items.add(new Item(300, 100));  
-        enemies[0] = enemy1;
-        enemies[1] = enemy2;
+        enemies.add(enemy1);
+        enemies.add(enemy2);
     }
-
     public void updateEnemy(){
-    	enemy1.move();
-        enemy2.move();
+    	for (GameEntity enemy : enemies){
+            enemy.move();
+        }
     }
     
     // Method to handle player collision and logic 
@@ -65,8 +68,11 @@ public class GameModel {
     public void draw(Graphics2D g2){
         wall.draw(g2);
         player.draw(g2);
-        enemy1.draw(g2);
-        enemy2.draw(g2);
+        // enemy1.draw(g2);
+        // enemy2.draw(g2);
+        for (GameEntity enemy : enemies){
+            enemy.draw(g2);
+        }
         for (GameEntity item : this.items){
             item.draw(g2);
         }
@@ -82,9 +88,8 @@ public class GameModel {
     public void increasePlayerScore(){
         ((Player) player).increaseScore();
     }
-
     public GameEntity getPlayer() { return player; }
     public ArrayList<GameEntity> getItems() { return items; }
     public ArrayList<GameEntity> getBlocks() {return wall.getWallBlocks();}
-    public GameEntity[] getEnemies() {return enemies;}
+    public ArrayList<GameEntity> getEnemies() {return enemies;}
 }

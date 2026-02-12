@@ -52,6 +52,15 @@ public abstract class GameEntity {
         return this.dy;
     }
 
+    public void setDX(int newDx){
+        this.dx = newDx;
+    }
+
+    public void setDY(int newDy){
+        this.dy = newDy;
+    }
+
+
     public void setX(int newX){
         this.x = newX;
     }
@@ -62,12 +71,12 @@ public abstract class GameEntity {
     public void move(){
         x += dx;
         y += dy;
-        if (x <= 160 || x >= 430){
-            dx = -dx;
-        }    
-        if (y >= 490 || y <= 0){
-            dy = -dy;
-        }
+        // if (x <= 160 || x >= 430){
+        //     dx = -dx;
+        // }    
+        // if (y >= 490 || y <= 0){
+        //     dy = -dy;
+        // }
     }
     public void draw(Graphics2D g2){
         g2.drawImage(EntityImg, x, y, WIDTH, HEIGHT, null);

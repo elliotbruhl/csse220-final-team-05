@@ -18,18 +18,18 @@ public class Wall {
     {"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "X............XXXX............X",
     "X............XXXX............X",
-    "X....XXXX........XXXX.....XXXX.",
-    "X....XXXX.................XXXX.",
-    "X....XXXX.................XXXX.",
-    "X....XXXX........XXXX.....XXXX.",
+    "X....XXXX........XXXX.....X..X",
+    "X....XXXX.................X..X",
+    "X....XXXX.................X..X",
+    "X....XXXX.........XXX.....X..X",
     "X............XXXX............X",
     "X............XXXX............X",
     "XXXXXXX................XXXXXXX",
     "XXXXXXX................XXXXXXX",
     "XXXXXXX.....XXXXXXXX.....XXXXXX",
-    "X............XXXXXXXX............",
-    "X............XXXXXXXX............",
-    "XXXXXXX.....XXXXXXXX.....XXXXXXX",
+    "X............XXXXXXXX........X",
+    "X............XXXXXXXX........X",
+    "XXXXXXX.....XXXXXXXX.....XxXXX",
     "XXXXXXX................XXXXXXX",
     "XXXXXXX................XXXXXXX",
     "X............XXXX............X",
@@ -38,18 +38,19 @@ public class Wall {
     "X....XXXX..............XXXXXXX.",
     "X....XXXX..............XXXXXXX.",
     "X....XXXX.....XXXX.....XXXXXXX.",
-    "X............XXXX............X",
-    "X............XXXX............X",
+    "X............ XXXX...........X",
+    "X............................X",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "..............................",
     "..............................",
     "..............................",
     ".............................."};
 
-    private ArrayList<GameEntity> blocks = new ArrayList<>();
+    private ArrayList<GameEntity> blocks;
     private final Image BLOCK_IMG = new ImageIcon(getClass().getResource("block.png")).getImage();
 
-    public Wall(){
+    public Wall(ArrayList<GameEntity> blocksMap){
+        blocks = blocksMap;
         // int[][] fence = makeTileMap();
         for (int r = 0; r < tileMap.length; r++){
             for (int c = 0; c < tileMap[r].length(); c++){
