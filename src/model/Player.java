@@ -1,10 +1,10 @@
 package model;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import java.awt.Font;
 
 /**
  * Class: Player
@@ -13,22 +13,15 @@ import javax.swing.ImageIcon;
  */
 
 public class Player extends GameEntity{
+    public Player(int x, int y, int WIDTH, int HEIGHT, int dx, int dy) {
+        super(x, y, WIDTH, HEIGHT, "player.png", dx, dy);
+        //TODO Auto-generated constructor stub
+    }
     private char direction; // 'W/A/S/D' for up/left/down/right
     private int score;
     private int lives = 3;
     private final Image PLAYER_IMAGE = new ImageIcon(getClass().getResource("player.png")).getImage();
-    private Image HEART;
-    
-    public Player(int x, int y, int WIDTH, int HEIGHT, int dx, int dy) {
-        super(x, y, WIDTH, HEIGHT, "player.png", dx, dy);
-        try {
-            HEART = new ImageIcon(getClass().getResource("heart.png")).getImage();
-        }
-        catch (Exception e) {
-            System.out.println("Error loading heart image: " + e.getMessage());
-        }
-    }
-    
+    private final Image HEART = new ImageIcon(getClass().getResource("heart.png")).getImage();
 
     @Override
     public void draw(Graphics2D g2){
@@ -75,19 +68,13 @@ public class Player extends GameEntity{
     public void setDirection(char direction){
         this.direction = direction;
     }
-
-    public void resetPlayer() {
-        this.score = 0;
-        this.lives = 3;
-        resetPosition();
-    }
     
     public void resetPosition(){
         super.setX(30); 
         super.setY(20);
     }
-    
-    public void movePlayer(){
+    @Override
+    public void move(/*int[][] tileMap, int tileWidth, int tileHeight*/){
         // int playerTileX = x / tileWidth;
         // int playerTileY = y / tileHeight;
 

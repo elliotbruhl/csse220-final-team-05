@@ -1,8 +1,8 @@
 package model;
 
+import javax.swing.ImageIcon;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import javax.swing.ImageIcon;
 
 public abstract class GameEntity {
     private int x; 
@@ -22,12 +22,7 @@ public abstract class GameEntity {
         this.imageSource = imageSource;
         this.dx = dx;
         this.dy = dy;
-        try {
-            EntityImg = new ImageIcon(getClass().getResource(this.imageSource)).getImage();
-        }
-        catch (Exception e) {
-            System.out.println("Image not found: " + this.imageSource);
-        }
+        EntityImg = new ImageIcon(getClass().getResource(this.imageSource)).getImage();
     }
 
     public Image getImage(){
@@ -64,11 +59,16 @@ public abstract class GameEntity {
     public void setY(int newY){
         this.y = newY;
     }
-    
-    public void move(String[] tileMap, int width, int height) {
-    	
+    public void move(){
+        x += dx;
+        y += dy;
+        if (x <= 160 || x >= 430){
+            dx = -dx;
+        }    
+        if (y >= 490 || y <= 0){
+            dy = -dy;
+        }
     }
-    
     public void draw(Graphics2D g2){
         g2.drawImage(EntityImg, x, y, WIDTH, HEIGHT, null);
     }

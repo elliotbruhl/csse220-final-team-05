@@ -47,15 +47,9 @@ public class Wall {
     ".............................."};
 
     private ArrayList<GameEntity> blocks = new ArrayList<>();
-    private Image BLOCK_IMG = null;
+    private final Image BLOCK_IMG = new ImageIcon(getClass().getResource("block.png")).getImage();
 
     public Wall(){
-        try {
-            BLOCK_IMG = new ImageIcon(getClass().getResource("block.png")).getImage();
-        }
-        catch (Exception e) {
-            System.out.println("Error loading block image: " + e.getMessage());
-        }
         // int[][] fence = makeTileMap();
         for (int r = 0; r < tileMap.length; r++){
             for (int c = 0; c < tileMap[r].length(); c++){

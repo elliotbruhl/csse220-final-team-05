@@ -7,8 +7,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.Timer;
-import model.GameEntity;
+import model.Block;
 import model.GameModel;
+import model.GameEntity;
 /**
  * Class: GameComponent
  * @author The Button Mashers - Elliot Bruhl, Jonathon Hammond, Josh Max, Phu Bui
@@ -16,23 +17,18 @@ import model.GameModel;
  */
 
 public class GameComponent extends JComponent {
-	private Image BACKGROUND_IMG;
+	private final Image BACKGROUND_IMG = new ImageIcon(getClass().getResource("backgroundImage.png")).getImage();
 	private GameModel model;
 	private Timer timer;
-	private int counter = 0;
-
 	public GameComponent() {
-		try {
-			BACKGROUND_IMG = new ImageIcon(getClass().getResource("backgroundImage.png")).getImage();
-		} catch (Exception e) {
-			System.out.println("Error loading background image: " + e.getMessage());
-		}
 		this.model = new GameModel();
 		timer = new Timer(100, e -> {
 			if (!model.playerLosingGame()){
-				if(counter % 4 == 0) model.updateEnemy();
+				model.updateEnemy();
 				repaint();
-				counter ++;
+			}
+			else{
+				timer.stop();
 			}
 			for	(GameEntity enemy : model.getEnemies()){
 				if (model.handleCollision(model.getPlayer(), enemy)){
@@ -49,9 +45,6 @@ public class GameComponent extends JComponent {
 			@Override
 			public void keyReleased(KeyEvent e){
 				if (model.playerLosingGame()){
-					if (e.getKeyCode() == KeyEvent.VK_R) {
-						model.resetGame();
-					}
 					return;
 				}
 				switch(e.getKeyCode()) {
