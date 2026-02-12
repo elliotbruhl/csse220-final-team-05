@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -18,7 +19,7 @@ public class Player extends GameEntity{
     private int lives = 3;
     private final Image PLAYER_IMAGE = new ImageIcon(getClass().getResource("player.png")).getImage();
     private Image HEART;
-    
+
     public Player(int x, int y, int WIDTH, int HEIGHT, int dx, int dy) {
         super(x, y, WIDTH, HEIGHT, "player.png", dx, dy);
         try {
@@ -28,7 +29,7 @@ public class Player extends GameEntity{
             System.out.println("Error loading heart image: " + e.getMessage());
         }
     }
-    
+
 
     @Override
     public void draw(Graphics2D g2){
@@ -66,7 +67,7 @@ public class Player extends GameEntity{
 
     //  public int getDX(){
     //     return DX;
-    // } 
+    // }
 
     // public int getDY(){
     //     return DY;
@@ -81,20 +82,21 @@ public class Player extends GameEntity{
         this.lives = 3;
         resetPosition();
     }
-    
+
     public void resetPosition(){
-        super.setX(30); 
+        super.setX(30);
         super.setY(20);
     }
     
+    public int getScore() {
+    	return score;
+    }
+
     public void movePlayer(){
         // int playerTileX = x / tileWidth;
         // int playerTileY = y / tileHeight;
 
-        if (direction == 'W' && super.getY() < 0) {
-            return; // Blocked moving up
-        }
-        if (direction == 'S' && super.getY() > 610) {
+        if ((direction == 'W' && super.getY() < 0) || (direction == 'S' && super.getY() > 610)) {
             return; // Blocked moving down
         }
         if (direction == 'A' && super.getX() < 0) {
@@ -103,7 +105,7 @@ public class Player extends GameEntity{
         if (direction == 'D' && super.getX() > 590) {
             return; // Blocked moving right
         }
-        
+
         switch (this.direction) {
             case 'W' -> super.setY(super.getY() - super.getDY());
             case 'S' -> super.setY(super.getY() + super.getDY());

@@ -1,12 +1,13 @@
 package app;
 
 import javax.swing.SwingUtilities;
+
 import ui.GameWindow;
 
 /**
  * Class: MainApp
  * @author The Button Mashers - Elliot Bruhl, Jonathon Hammond, Josh Max, Phu Bui
- * <br>Purpose: Top level class for CSSE220 Project containing main method 
+ * <br>Purpose: Top level class for CSSE220 Project containing main method
  * Entry point for the final project.
  */
 
@@ -16,7 +17,7 @@ public class MainApp {
 		new MainApp().run();
 		});
 	}
-	
+
 	public void run() {
 		GameWindow.show();
 		// Hint: MainApp should not contain game logic or drawing code

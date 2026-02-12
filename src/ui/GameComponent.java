@@ -1,12 +1,16 @@
 package ui;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.Timer;
+
 import model.GameEntity;
 import model.GameModel;
 /**
@@ -30,7 +34,9 @@ public class GameComponent extends JComponent {
 		this.model = new GameModel();
 		timer = new Timer(100, e -> {
 			if (!model.playerLosingGame()){
-				if(counter % 4 == 0) model.updateEnemy();
+				if(counter % 4 == 0) {
+					model.updateEnemy();
+				}
 				repaint();
 				counter ++;
 			}
@@ -40,15 +46,21 @@ public class GameComponent extends JComponent {
 					model.playerLosesOneLive();
 				}
 			}
-			
+
 		});
 		timer.start();
-	
+
 		addKeyListener(new KeyAdapter() {
-            
+
 			@Override
 			public void keyReleased(KeyEvent e){
 				if (model.playerLosingGame()){
+					if (e.getKeyCode() == KeyEvent.VK_R) {
+						model.resetGame();
+					}
+					return;
+				}
+				if (model.hasPlayerWon()) {
 					if (e.getKeyCode() == KeyEvent.VK_R) {
 						model.resetGame();
 					}
@@ -60,7 +72,7 @@ public class GameComponent extends JComponent {
 					case KeyEvent.VK_A -> model.setPlayerDirection('A');
 					case KeyEvent.VK_D -> model.setPlayerDirection('D');
 				}
-				
+
 				model.updatePlayer();
 		  		for (GameEntity block : model.getBlocks()){
 					if (model.handleCollision(model.getPlayer(), block)){
@@ -75,11 +87,11 @@ public class GameComponent extends JComponent {
 						model.increasePlayerScore();
 						model.getItems().remove(i);
 					}
-				}	
+				}
 				repaint();
-				}			
+				}
 		});
-		setFocusable(true);	
+		setFocusable(true);
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -87,5 +99,16 @@ public class GameComponent extends JComponent {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(BACKGROUND_IMG, 0, 0, getWidth(),  getHeight() , null);
 		model.draw(g2);
+		
+		if (model.hasPlayerWon()) {
+			g2.setColor(Color.GREEN);
+			g2.setFont(new Font("Arial", Font.BOLD, 50));
+			g2.drawString("YOU WIN!", 180, 290);
+			
+			g2.setFont(new Font("Arial", Font.PLAIN, 20));
+			g2.drawString("Press R to Restart", 180, 290);
+			return;
+			
+		}
 	}
 }
