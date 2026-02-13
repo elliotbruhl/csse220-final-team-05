@@ -60,9 +60,19 @@ public class GameComponent extends JComponent {
 					}
 					return;
 				}
+				
+				if (model.isGameFinished()) {
+					if (e.getKeyCode() == KeyEvent.VK_Q) {
+						System.exit(0);
+					}
+					return;
+				}
+				
 				if (model.hasPlayerWon()) {
-					if (e.getKeyCode() == KeyEvent.VK_R) {
-						model.resetGame();
+					if (e.getKeyCode() == KeyEvent.VK_C) {
+						model.nextLevel();
+					} else if (e.getKeyCode() == KeyEvent.VK_Q) {
+						System.exit(0);
 					}
 					return;
 				}
@@ -100,13 +110,23 @@ public class GameComponent extends JComponent {
 		g2.drawImage(BACKGROUND_IMG, 0, 0, getWidth(),  getHeight() , null);
 		model.draw(g2);
 		
-		if (model.hasPlayerWon()) {
+		if (model.isGameFinished()) {
 			g2.setColor(Color.GREEN);
 			g2.setFont(new Font("Arial", Font.BOLD, 50));
-			g2.drawString("YOU WIN!", 180, 290);
+			g2.drawString("YOU BEAT ALL LEVELS!", 80, 250);
+			
+			g2.setFont(new Font("Arial", Font.BOLD, 50));
+			g2.drawString("Press Q to Quit", 200, 290);
+		}
+		
+		if (model.hasPlayerWon()) {
+			g2.setColor(Color.YELLOW);
+			g2.setFont(new Font("Arial", Font.BOLD, 50));
+			g2.drawString("LEVEL COMPLETE", 120, 250);
 			
 			g2.setFont(new Font("Arial", Font.PLAIN, 20));
-			g2.drawString("Press R to Restart", 180, 290);
+			g2.drawString("Press C to Continue", 180, 290);
+			g2.drawString("Press Q to Quit", 200, 320);
 			return;
 			
 		}
