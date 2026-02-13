@@ -54,6 +54,14 @@ public class GameComponent extends JComponent {
 
 			@Override
 			public void keyReleased(KeyEvent e){
+				
+				if (!model.isGameStarted()) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+						model.startGame();
+					}
+					return;
+				}
+				
 				if (model.playerLosingGame()){
 					if (e.getKeyCode() == KeyEvent.VK_R) {
 						model.resetGame();
@@ -110,6 +118,17 @@ public class GameComponent extends JComponent {
 		g2.drawImage(BACKGROUND_IMG, 0, 0, getWidth(),  getHeight() , null);
 		model.draw(g2);
 		
+		if (!model.isGameStarted()) {
+			g2.setColor(Color.WHITE);
+			g2.fillRect(0, 0, getWidth(), getHeight());
+			g2.setColor(Color.BLACK);
+			g2.setFont(new Font("Arial", Font.BOLD, 50));
+			g2.drawString("Minecraft Ripoff", 100, 200);
+			g2.setFont(new Font("Arial", Font.PLAIN, 20));
+			g2.drawString("Press ENTER to Start", 200, 250);
+			return;
+		}
+		
 		if (model.isGameFinished()) {
 			g2.setColor(Color.GREEN);
 			g2.setFont(new Font("Arial", Font.BOLD, 50));
@@ -122,11 +141,11 @@ public class GameComponent extends JComponent {
 		if (model.hasPlayerWon()) {
 			g2.setColor(Color.YELLOW);
 			g2.setFont(new Font("Arial", Font.BOLD, 50));
-			g2.drawString("LEVEL COMPLETE", 120, 250);
+			g2.drawString("LEVEL COMPLETE", 100, 250);
 			
 			g2.setFont(new Font("Arial", Font.PLAIN, 20));
-			g2.drawString("Press C to Continue", 180, 290);
-			g2.drawString("Press Q to Quit", 200, 320);
+			g2.drawString("Press C to Continue", 200, 290);
+			g2.drawString("Press Q to Quit", 220, 320);
 			return;
 			
 		}

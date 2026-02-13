@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 public class GameModel {
+	private boolean gameStarted = false;
+	public boolean isGameStarted() {return gameStarted;}
     private GameEntity player;
 	private Wall wall;
 	private GameEntity enemy1;
@@ -128,6 +130,10 @@ public class GameModel {
 
     public void increasePlayerScore(){
         ((Player) player).increaseScore();
+    }
+    
+    public void startGame() {
+    	gameStarted = true;
     }
 
     public boolean playerInWinZone() {
