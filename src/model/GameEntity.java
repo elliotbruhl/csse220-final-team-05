@@ -2,14 +2,15 @@ package model;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
 public abstract class GameEntity {
-    private int x; 
+    private int x;
     private int y;
     private int dx;
     private int dy;
-    private int WIDTH; 
+    private int WIDTH;
     private int HEIGHT;
     private String imageSource;
     private Image EntityImg;
@@ -72,6 +73,11 @@ public abstract class GameEntity {
     public void setY(int newY){
         this.y = newY;
     }
+
+    public void move(String[] tileMap, int width, int height) {
+
+    }
+
     
     public void updateDirection(char previousDirection) {}
     

@@ -4,14 +4,22 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 public class GameModel {
+	private boolean gameStarted = false;
+	public boolean isGameStarted() {return gameStarted;}
     private GameEntity player;
 	private Wall wall;
 	private GameEntity enemy1;
 	private GameEntity enemy2;
     private ArrayList<GameEntity> items;
     private GameEntity[] enemies;
+    private boolean playerWon = false;
+    public boolean hasPlayerWon() {return playerWon;}
+    private boolean gameFinished = false;
+    public boolean isGameFinished() {return gameFinished;}
+    private int currentLevel = 1;
+    public int getCurrentLevel() {return currentLevel;}
     public GameModel(){
-        wall = new Wall();
+        wall = new Wall(currentLevel);
 		player = new Player(30, 20, 30, 30, 10, 10);
 		enemy1 = new Enemy(180, 85, 30, 30, 15, 15);
 		enemy2 = new Enemy(200, 200, 30, 30, 15, 15);
@@ -19,7 +27,7 @@ public class GameModel {
         enemies = new Enemy[2];
         items.add(new Item(150, 200));
         items.add(new Item(400, 20));
-        items.add(new Item(300, 100));  
+        items.add(new Item(300, 100));
         enemies[0] = enemy1;
         enemies[1] = enemy2;
     }
@@ -28,18 +36,25 @@ public class GameModel {
     	((Enemy) enemy1).move(/*wall.tileMap, wall.WIDTH, wall.HEIGHT*/);
         ((Enemy) enemy2).move(/*wall.tileMap, wall.WIDTH, wall.HEIGHT*/);
     }
-    
-    // Method to handle player collision and logic 
+
+    // Method to handle player collision and logic
     public void playerLosesOneLive(){
         ((Player) player).loseOneLive();
     }
-    
+
     public void setPlayerDirection(char dir){
         ((Player) player).setDirection(dir);
     }
 
     public void updatePlayer(){
        ((Player) player).movePlayer();
+       
+       if (((Player) player).getScore() >= 3 && playerInWinZone()) {
+    	   if (currentLevel < 3) {
+    		   playerWon = true;
+    	   }
+    	   else {gameFinished = true;}
+       }
     }
 
     public void returnPlayerToLasPos(){
@@ -81,9 +96,28 @@ public class GameModel {
         }
 
     }
+    
+    public void nextLevel() {
+    	currentLevel++;
+    	
+    	playerWon = false;
+    	
+    	((Player) player).resetPlayer();
+        ((Enemy) enemy1).setPosition(180, 85);
+        ((Enemy) enemy2).setPosition(200, 200);
+        
+        wall = new Wall(currentLevel);
+        
+        items.clear();
+        items.add(new Item(150, 200));
+        items.add(new Item(400, 20));
+        items.add(new Item(300, 100));
+    }
+    
     public void resetGame(){
         System.out.println("Resetting Game...");
-
+        playerWon = false;
+        
         ((Player) player).resetPlayer();
         ((Enemy) enemy1).setPosition(180, 85);
         ((Enemy) enemy2).setPosition(200, 200);
@@ -93,11 +127,24 @@ public class GameModel {
         items.add(new Item(400, 20));
         items.add(new Item(300, 100));
     }
-    
+
     public void increasePlayerScore(){
         ((Player) player).increaseScore();
     }
+    
+    public void startGame() {
+    	gameStarted = true;
+    }
 
+    public boolean playerInWinZone() {
+    	for (GameEntity zone : wall.getWinZones()) {
+    		if (handleCollision(player, zone)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
     public GameEntity getPlayer() { return player; }
     public ArrayList<GameEntity> getItems() { return items; }
     public ArrayList<GameEntity> getBlocks() {return wall.getWallBlocks();}
