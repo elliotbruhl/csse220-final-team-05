@@ -1,43 +1,42 @@
 package model;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.awt.Font;
+import java.awt.Color;
+
 public class GameModel {
-	private boolean gameStarted = false;
+    private boolean gameStarted = false;
 	public boolean isGameStarted() {return gameStarted;}
     private GameEntity player;
 	private Wall wall;
-	private GameEntity enemy1;
-	private GameEntity enemy2;
     private ArrayList<GameEntity> items;
-    private GameEntity[] enemies;
-    private boolean playerWon = false;
-    public boolean hasPlayerWon() {return playerWon;}
-    private boolean gameFinished = false;
-    public boolean isGameFinished() {return gameFinished;}
-    private int currentLevel = 1;
+    private ArrayList<GameEntity> enemies;
+    private ArrayList<GameEntity> blocks;
+    private ArrayList<GameEntity> winzones;
+    private int maxLevel = 3;
+    private static int currentLevel;
     public int getCurrentLevel() {return currentLevel;}
+    private final int TILE_SIZE = 30;
+    private int startX;
+    private int startY;
     public GameModel(){
-        wall = new Wall(currentLevel);
-		player = new Player(30, 20, 30, 30, 10, 10);
-		enemy1 = new Enemy(180, 85, 30, 30, 15, 15);
-		enemy2 = new Enemy(200, 200, 30, 30, 15, 15);
+        currentLevel ++;
+        blocks = new ArrayList<>();
+        enemies = new ArrayList<>();
         items = new ArrayList<>();
-        enemies = new Enemy[2];
-        items.add(new Item(150, 200));
-        items.add(new Item(400, 20));
-        items.add(new Item(300, 100));
-        enemies[0] = enemy1;
-        enemies[1] = enemy2;
+        winzones = new ArrayList<>();
+        loadLevel();
+        player = new Player(startX, startY, TILE_SIZE, 10, 10);
+        wall = new Wall(blocks, winzones);
     }
-
     public void updateEnemy(){
-    	((Enemy) enemy1).move(/*wall.tileMap, wall.WIDTH, wall.HEIGHT*/);
-        ((Enemy) enemy2).move(/*wall.tileMap, wall.WIDTH, wall.HEIGHT*/);
+    	for (GameEntity enemy : enemies){
+            enemy.move();
+        }
     }
-
-    // Method to handle player collision and logic
     public void playerLosesOneLive(){
         ((Player) player).loseOneLive();
     }
@@ -47,14 +46,7 @@ public class GameModel {
     }
 
     public void updatePlayer(){
-       ((Player) player).movePlayer();
-       
-       if (((Player) player).getScore() >= 3 && playerInWinZone()) {
-    	   if (currentLevel < 3) {
-    		   playerWon = true;
-    	   }
-    	   else {gameFinished = true;}
-       }
+        player.move();
     }
 
     public void returnPlayerToLasPos(){
@@ -62,14 +54,59 @@ public class GameModel {
     }
 
     public void resetPlayerPosition(){
-        ((Player) player).resetPosition();
+        ((Player) player).resetPosition(startX, startY);
     }
 
     public boolean playerLosingGame(){
         return ((Player) player).isLosingGame();
 
     }
+    public void loadLevel() {
+	    File file = new File("level" + currentLevel + ".txt");
+        int x = 0;
+        int y = 0;
+	    try {
+		    int row = 0;
+	    	Scanner scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				 for (int col = 0; col < line.length(); col++) {
+					    char c = line.charAt(col);
 
+					    if (c == 'P' || c == 'E' || c == 'I'|| c == 'X'|| c== 'W') {
+					    	 x = col * TILE_SIZE;
+					    	 y = row * TILE_SIZE;	      
+					    }
+					    
+                        if (c == 'W'){
+                            winzones.add(new Block(x, y, TILE_SIZE, TILE_SIZE));
+                        }
+
+                        if (c == 'X'){
+                            blocks.add(new Block(x, y, TILE_SIZE, TILE_SIZE));
+                        }
+
+					    if (c == 'P') {
+					        startX = x;
+					        startY = y;
+					    } 
+                        else if (c == 'E') {
+					        enemies.add(new Enemy(x, y, TILE_SIZE, 10, 10));
+					    }
+
+                        else if (c == 'I'){
+                            items.add(new Item(x, y));
+                        }
+				 }
+
+				 row++;
+			}
+			scanner.close();
+        }
+            catch (FileNotFoundException e1) {
+			System.out.println("level" + currentLevel + ".txt not found");
+		}
+    }
     public boolean handleCollision(GameEntity a, GameEntity b){
         return  a.getX() < b.getX() + b.getWidth() &&
                 a.getX() + a.getWidth() > b.getX() &&
@@ -80,60 +117,46 @@ public class GameModel {
     public void draw(Graphics2D g2){
         wall.draw(g2);
         player.draw(g2);
-        enemy1.draw(g2);
-        enemy2.draw(g2);
+        for (GameEntity enemy : enemies){
+            enemy.draw(g2);
+        }
         for (GameEntity item : this.items){
             item.draw(g2);
         }
-
         if (this.playerLosingGame()){
             g2.setColor(Color.RED);
             g2.setFont(new Font("Arial", Font.BOLD, 50));
             g2.drawString("GAME OVER", 150, 250);
-
-            g2.setFont(new Font("Arial", Font.PLAIN, 20));
-            g2.drawString("Press R to Restart", 180, 290);
+            g2.setFont(new Font("Arial", Font.BOLD, 25));
+            g2.drawString("Do you want to do it agian?", 150, 290);
+        }
+        if (this.playerFinishGame()){
+            wall.drawDoor(g2);
+            g2.setColor(Color.YELLOW);
+            g2.setFont(new Font("Arial", Font.BOLD, 40));
+            g2.drawString("YOU'VE FINISHED THE GAME", 20, 250);
+            g2.setFont(new Font("Arial", Font.BOLD, 25));
+            g2.drawString("Do you want to do it agian?", 150, 290);
         }
 
-    }
-    
-    public void nextLevel() {
-    	currentLevel++;
-    	
-    	playerWon = false;
-    	
-    	((Player) player).resetPlayer();
-        ((Enemy) enemy1).setPosition(180, 85);
-        ((Enemy) enemy2).setPosition(200, 200);
-        
-        wall = new Wall(currentLevel);
-        
-        items.clear();
-        items.add(new Item(150, 200));
-        items.add(new Item(400, 20));
-        items.add(new Item(300, 100));
-    }
-    
-    public void resetGame(){
-        System.out.println("Resetting Game...");
-        playerWon = false;
-        
-        ((Player) player).resetPlayer();
-        ((Enemy) enemy1).setPosition(180, 85);
-        ((Enemy) enemy2).setPosition(200, 200);
-
-        items.clear();
-        items.add(new Item(150, 200));
-        items.add(new Item(400, 20));
-        items.add(new Item(300, 100));
+        else if (this.playerWinGame()){
+            wall.drawDoor(g2);
+            g2.setColor(Color.YELLOW);
+			g2.setFont(new Font("Arial", Font.BOLD, 50));
+			g2.drawString("LEVEL COMPLETE", 90, 300);
+			g2.setFont(new Font("Arial", Font.PLAIN, 20));
+        } 
     }
 
-    public void increasePlayerScore(){
-        ((Player) player).increaseScore();
-    }
-    
+       
     public void startGame() {
     	gameStarted = true;
+    }
+    public boolean playerWinGame(){
+        return playerInWinZone() && items.isEmpty();
+    }
+    public void increasePlayerScore(){
+        ((Player) player).increaseScore();
     }
 
     public boolean playerInWinZone() {
@@ -144,11 +167,31 @@ public class GameModel {
     	}
     	return false;
     }
-    
+    public void clearCurrentEntity(){
+        blocks.clear();
+        winzones.clear();
+        enemies.clear();
+    }
+
+    public boolean playerFinishGame(){
+        return currentLevel == maxLevel && playerInWinZone() && items.isEmpty();
+    }
+
+    public void resetLevel(){
+        currentLevel = 0;
+    }
+
+    public void nextLevel(){
+        currentLevel++;
+    }
+
+    public void clearGameEntity(){
+        items.clear();
+        enemies.clear();
+        blocks.clear();
+    }
     public GameEntity getPlayer() { return player; }
     public ArrayList<GameEntity> getItems() { return items; }
     public ArrayList<GameEntity> getBlocks() {return wall.getWallBlocks();}
-    public GameEntity[] getEnemies() {return enemies;}
-    public String[] getTileMap() {return wall.tileMap;}
-    public char getEnemyDirection(GameEntity enemy) {return ((Enemy) enemy).getDirection();}
+    public ArrayList<GameEntity> getEnemies() {return enemies;}
 }

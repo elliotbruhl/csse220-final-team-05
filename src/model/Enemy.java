@@ -1,6 +1,4 @@
 package model;
-
-import java.util.*;
 /**
  * Class: Enemy
  * @author The Button Mashers - Elliot Bruhl, Jonathon Hammond, Josh Max, Phu Bui
@@ -8,59 +6,44 @@ import java.util.*;
  */
 
 public class Enemy extends GameEntity{
-    private char direction = 'U';
-	private char[] directions = {'U', 'D', 'R', 'L'};
-
-
-    public Enemy(int x, int y, int width, int height, int dx, int dy) {
-        super(x, y, width, height, "zombie.png", dx, dy);
+    public Enemy(int x, int y, int tileSize, int dx, int dy) {
+        super(x, y, tileSize, tileSize, "zombie.png", dx, dy);
     }
-    
-	public void move(){
-		setX(getX() + getDX());
-		setY(getY() + getDY());
-	}
 
-	public void updateVelocity(){
-		     if (this.direction == 'U') {
-                setDx(0);
-        		setDy(-10);            
-			}
-            else if (this.direction == 'D') {
-                setDx(0); 
-                setDy(10);
-            }
-            else if (this.direction == 'L') {
-                setDx(-10);
-                setDy(0);
-            }
-            else if (this.direction == 'R') {
-                setDx(10); 
-                setDy(0);
-            }
-	}
+    public boolean willCollideX(GameEntity b) {
+        int nextX = getX() + getDX();
+        return nextX < b.getX() + b.getWidth() &&
+            nextX + getWidth() > b.getX() &&
+            getY() < b.getY() + b.getHeight() &&
+            getY() + getHeight() > b.getY();
+    }
 
-	// @Override
-	// public void updateDirection(char previousDirection) {
-		
-	// }
+    public boolean willCollideY(GameEntity b) {
+        int nextY = getY() + getDY();
+        return getX() < b.getX() + b.getWidth() &&
+            getX() + getWidth() > b.getX() &&
+            nextY < b.getY() + b.getHeight() &&
+            nextY + getHeight() > b.getY();
+    }
+    public void cancelMoveOnX(){
+        setX(getX()- getDX());
+    }
 
-	public void cancelMovement(){
-		setDx(0);
-		setDy(0);
-	}
+    public void cancelMoveOnY(){
+        setX(getY()- getDY());
+    }
 
-	public void setDirectionRandomly(){
-		Random random = new Random();
-		this.direction = directions[random.nextInt(4)];
-	}
 
-	public char getDirection(){
-		return this.direction;
-	}
+    public void flipX(){
+        setDX(-getDX());
+    }
 
+    public void flipY(){
+        setDY(-getDY());
+    }
 	public void setPosition(int x, int y) {
 		setX(x);
 		setY(y);
 	}
+
 }

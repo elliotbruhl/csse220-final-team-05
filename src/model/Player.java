@@ -1,11 +1,11 @@
 package model;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import java.awt.Font;
 
 /**
  * Class: Player
@@ -19,9 +19,9 @@ public class Player extends GameEntity{
     private int lives = 3;
     private final Image PLAYER_IMAGE = new ImageIcon(getClass().getResource("player.png")).getImage();
     private Image HEART;
-
-    public Player(int x, int y, int WIDTH, int HEIGHT, int dx, int dy) {
-        super(x, y, WIDTH, HEIGHT, "player.png", dx, dy);
+    
+    public Player(int x, int y, int tileSize, int dx, int dy) {
+        super(x, y, tileSize, tileSize, "player.png", dx, dy);
         try {
             HEART = new ImageIcon(getClass().getResource("heart.png")).getImage();
         }
@@ -29,7 +29,6 @@ public class Player extends GameEntity{
             System.out.println("Error loading heart image: " + e.getMessage());
         }
     }
-
 
     @Override
     public void draw(Graphics2D g2){
@@ -57,44 +56,16 @@ public class Player extends GameEntity{
         return this.lives == 0;
     }
 
-    // public int getX(){
-    //     return x;
-    // }
-
-    // public int getY(){
-    //     return y;
-    // }
-
-    //  public int getDX(){
-    //     return DX;
-    // }
-
-    // public int getDY(){
-    //     return DY;
-    // }
-
     public void setDirection(char direction){
         this.direction = direction;
     }
 
-    public void resetPlayer() {
-        this.score = 0;
-        this.lives = 3;
-        resetPosition();
+    public void resetPosition(int startX, int startY){
+        super.setX(startX); 
+        super.setY(startY);
     }
-
-    public void resetPosition(){
-        super.setX(30);
-        super.setY(20);
-    }
-    
-    public int getScore() {
-    	return score;
-    }
-
-    public void movePlayer(){
-        // int playerTileX = x / tileWidth;
-        // int playerTileY = y / tileHeight;
+    @Override
+    public void move(){ 
 
         if ((direction == 'W' && super.getY() < 0) || (direction == 'S' && super.getY() > 610)) {
             return; // Blocked moving down

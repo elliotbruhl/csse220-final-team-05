@@ -1,22 +1,17 @@
 package ui;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import java.util.Random;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.Timer;
-
-
+import java.awt.*;
 import model.Enemy;
-import model.GameEntity;
 import model.GameModel;
+import model.GameEntity;
 /**
  * Class: GameComponent
  * @author The Button Mashers - Elliot Bruhl, Jonathon Hammond, Josh Max, Phu Bui
@@ -25,27 +20,78 @@ import model.GameModel;
 
 public class GameComponent extends JComponent {
 	private Image BACKGROUND_IMG;
+	private Image THEME_IMG;
 	private GameModel model;
 	private Timer timer;
-	private int counter = 0;
+	private JButton continueButton;
+	private JButton quitButton;
+	private JButton yesButton;
+	private JButton noButton;
 
 	public GameComponent() {
+		this.model = new GameModel();
+		continueButton = new JButton("Continue");
+		quitButton = new JButton("Quit");
+		yesButton = new JButton("Yes");
+		noButton = new JButton("No");
+		yesButton.setBounds(210, 320, 70, 40);
+		noButton.setBounds(290, 320, 70, 40);
+		continueButton.setBounds(190, 320, 100, 40);
+		quitButton.setBounds(310, 320, 100, 40);
+
+		yesButton.addActionListener(e -> {
+			model.resetLevel();
+			this.model = new GameModel();
+			model.startGame();
+
+		});
+
+		noButton.addActionListener(e -> {
+			System.exit(0);
+		});
+		continueButton.addActionListener(e -> {
+			model.clearGameEntity();
+			model.nextLevel();
+			model.loadLevel();
+			timer.start();
+		});
+
+		quitButton.addActionListener(e -> System.exit(0));
+
+		setLayout(null);
+		add(continueButton);
+		add(quitButton);
+		add(yesButton);
+		add(noButton);
+
 		try {
 			BACKGROUND_IMG = new ImageIcon(getClass().getResource("backgroundImage.png")).getImage();
+			THEME_IMG = new ImageIcon(getClass().getResource("theme.png")).getImage();
+
 		} catch (Exception e) {
 			System.out.println("Error loading background image: " + e.getMessage());
 		}
-		this.model = new GameModel();
+		
 		timer = new Timer(100, e -> {
-			if (!model.playerLosingGame()){
-				if(counter % 4 == 0) {
-					model.updateEnemy();
-				}
-				// if(counter % 4 == 0) model.updateEnemy();
-				
+			if (!model.playerLosingGame() && !model.playerWinGame()){
+				continueButton.setVisible(false);
+				quitButton.setVisible(false);
+				yesButton.setVisible(false);
+				noButton.setVisible(false);
 				model.updateEnemy();
 				repaint();
-				// counter ++;
+			}
+			else if (model.playerFinishGame() || model.playerLosingGame()){
+				yesButton.setVisible(true);
+				noButton.setVisible(true);
+			}
+			else if (model.playerWinGame()){
+				continueButton.setVisible(true);
+				quitButton.setVisible(true);
+				timer.stop();
+			}
+			else{
+				timer.stop();
 			}
 			for	(GameEntity enemy : model.getEnemies()){
 				if (model.handleCollision(model.getPlayer(), enemy)){
@@ -54,10 +100,19 @@ public class GameComponent extends JComponent {
 				}
 
 				for (GameEntity block : model.getBlocks()){
-					if (model.handleCollision(enemy, block)|| enemy.getX() < 0 || enemy.getY() > 550){
-						// ((Enemy) enemy).cancelMovement();
-						((Enemy) enemy).setDirectionRandomly();
+					boolean hitX = ((Enemy) enemy).willCollideX(block);
+					boolean hitY = ((Enemy) enemy).willCollideY(block);
+					
+					if (hitX){
+						((Enemy) enemy).flipX();
+						break;
 					}
+
+					if (hitY){
+						((Enemy) enemy).flipY();
+						break;
+					}
+
 				}
 			}
 
@@ -65,36 +120,12 @@ public class GameComponent extends JComponent {
 		timer.start();
 
 		addKeyListener(new KeyAdapter() {
-
 			@Override
-			public void keyReleased(KeyEvent e){
-				
+			public void keyPressed(KeyEvent e){
+
 				if (!model.isGameStarted()) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						model.startGame();
-					}
-					return;
-				}
-				
-				if (model.playerLosingGame()){
-					if (e.getKeyCode() == KeyEvent.VK_R) {
-						model.resetGame();
-					}
-					return;
-				}
-				
-				if (model.isGameFinished()) {
-					if (e.getKeyCode() == KeyEvent.VK_Q) {
-						System.exit(0);
-					}
-					return;
-				}
-				
-				if (model.hasPlayerWon()) {
-					if (e.getKeyCode() == KeyEvent.VK_C) {
-						model.nextLevel();
-					} else if (e.getKeyCode() == KeyEvent.VK_Q) {
-						System.exit(0);
 					}
 					return;
 				}
@@ -131,37 +162,9 @@ public class GameComponent extends JComponent {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(BACKGROUND_IMG, 0, 0, getWidth(),  getHeight() , null);
 		model.draw(g2);
-		
+
 		if (!model.isGameStarted()) {
-			g2.setColor(Color.WHITE);
-			g2.fillRect(0, 0, getWidth(), getHeight());
-			g2.setColor(Color.BLACK);
-			g2.setFont(new Font("Arial", Font.BOLD, 50));
-			g2.drawString("Minecraft Ripoff", 100, 200);
-			g2.setFont(new Font("Arial", Font.PLAIN, 20));
-			g2.drawString("Press ENTER to Start", 200, 250);
-			return;
-		}
-		
-		if (model.isGameFinished()) {
-			g2.setColor(Color.GREEN);
-			g2.setFont(new Font("Arial", Font.BOLD, 50));
-			g2.drawString("YOU BEAT ALL LEVELS!", 80, 250);
-			
-			g2.setFont(new Font("Arial", Font.BOLD, 50));
-			g2.drawString("Press Q to Quit", 200, 290);
-		}
-		
-		if (model.hasPlayerWon()) {
-			g2.setColor(Color.YELLOW);
-			g2.setFont(new Font("Arial", Font.BOLD, 50));
-			g2.drawString("LEVEL COMPLETE", 100, 250);
-			
-			g2.setFont(new Font("Arial", Font.PLAIN, 20));
-			g2.drawString("Press C to Continue", 200, 290);
-			g2.drawString("Press Q to Quit", 220, 320);
-			return;
-			
+			g2.drawImage(THEME_IMG, -1, 0, getWidth(), getHeight() + 10, null);			
 		}
 	}
 }

@@ -1,9 +1,8 @@
 package model;
 
+import javax.swing.ImageIcon;
 import java.awt.Graphics2D;
 import java.awt.Image;
-
-import javax.swing.ImageIcon;
 
 public abstract class GameEntity {
     private int x;
@@ -58,13 +57,14 @@ public abstract class GameEntity {
         return this.dy;
     }
 
-    public void setDx(int newDx){
-        this.dx = newDx; 
+    public void setDX(int newDx){
+        this.dx = newDx;
     }
 
-    public void setDy(int newDy){
+    public void setDY(int newDy){
         this.dy = newDy;
     }
+
 
     public void setX(int newX){
         this.x = newX;
@@ -73,14 +73,10 @@ public abstract class GameEntity {
     public void setY(int newY){
         this.y = newY;
     }
-
-    public void move(String[] tileMap, int width, int height) {
-
+    public void move(){
+        x += dx;
+        y += dy;
     }
-
-    
-    public void updateDirection(char previousDirection) {}
-    
     public void draw(Graphics2D g2){
         g2.drawImage(EntityImg, x, y, WIDTH, HEIGHT, null);
     }
