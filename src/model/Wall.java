@@ -12,58 +12,24 @@ import javax.swing.ImageIcon;
  */
 
 public class Wall {
-    public final int WIDTH = 20;
-    public final int HEIGHT = 20;
-    public final String[] tileMap = 
-    {"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "X............XXXX............X",
-    "X............XXXX............X",
-    "X....XXXX........XXXX.....X..X",
-    "X....XXXX.................X..X",
-    "X....XXXX.................X..X",
-    "X....XXXX.........XXX.....X..X",
-    "X............XXXX............X",
-    "X............XXXX............X",
-    "XXXXXXX................XXXXXXX",
-    "XXXXXXX................XXXXXXX",
-    "XXXXXXX.....XXXXXXXX.....XXXXXX",
-    "X............XXXXXXXX........X",
-    "X............XXXXXXXX........X",
-    "XXXXXXX.....XXXXXXXX.....XxXXX",
-    "XXXXXXX................XXXXXXX",
-    "XXXXXXX................XXXXXXX",
-    "X............XXXX............X",
-    "X............XXXX............X",
-    "X....XXXX.....XXXX.....XXXXXXX.",
-    "X....XXXX..............XXXXXXX.",
-    "X....XXXX..............XXXXXXX.",
-    "X....XXXX.....XXXX.....XXXXXXX.",
-    "X............ XXXX...........X",
-    "X............................X",
-    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "..............................",
-    "..............................",
-    "..............................",
-    ".............................."};
-
     private ArrayList<GameEntity> blocks;
-    private final Image BLOCK_IMG = new ImageIcon(getClass().getResource("block.png")).getImage();
+    private ArrayList<GameEntity> winZones;
 
-    public Wall(ArrayList<GameEntity> blocksMap){
+    private final Image BLOCK_IMG = new ImageIcon(getClass().getResource("block.png")).getImage();
+    private final Image DOOR_IMG = new ImageIcon(getClass().getResource("door.png")).getImage();
+    private final Image OPENING_DOOR = new ImageIcon(getClass().getResource("doorOpened.png")).getImage();
+
+    public Wall(ArrayList<GameEntity> blocksMap, ArrayList<GameEntity> winzones){
         blocks = blocksMap;
-        // int[][] fence = makeTileMap();
-        for (int r = 0; r < tileMap.length; r++){
-            for (int c = 0; c < tileMap[r].length(); c++){
-                if (tileMap[r].charAt(c) == 'X'){
-                    blocks.add(new Block(c * WIDTH, r * HEIGHT, WIDTH, HEIGHT));
-                }
-            }
-        }
-        blocks.add(new Block(500, 100, WIDTH, HEIGHT));
+        winZones = winzones;
     }  
     
     public ArrayList<GameEntity> getWallBlocks(){
     	return blocks;
+    }
+
+    public ArrayList<GameEntity> getWinZones() {
+    	return winZones;
     }
     
     public void draw(Graphics2D g2){
@@ -71,5 +37,12 @@ public class Wall {
             g2.drawImage(BLOCK_IMG, blocks.get(i).getX(), blocks.get(i).getY(), 
                         blocks.get(i).getWidth(), blocks.get(i).getHeight(), null);
         }
+        g2.drawImage(DOOR_IMG, winZones.get(0).getX(), winZones.get(0).getY(), 
+                        winZones.get(0).getWidth(), winZones.get(0).getHeight(), null);
+    }
+
+    public void drawDoor(Graphics2D g2){
+        g2.drawImage(OPENING_DOOR, winZones.get(0).getX(), winZones.get(0).getY(), 
+                        winZones.get(0).getWidth(), winZones.get(0).getHeight(), null);
     }
 }

@@ -13,15 +13,21 @@ import java.awt.Font;
  */
 
 public class Player extends GameEntity{
-    public Player(int x, int y, int WIDTH, int HEIGHT, int dx, int dy) {
-        super(x, y, WIDTH, HEIGHT, "player.png", dx, dy);
-        //TODO Auto-generated constructor stub
-    }
     private char direction; // 'W/A/S/D' for up/left/down/right
     private int score;
     private int lives = 3;
     private final Image PLAYER_IMAGE = new ImageIcon(getClass().getResource("player.png")).getImage();
-    private final Image HEART = new ImageIcon(getClass().getResource("heart.png")).getImage();
+    private Image HEART;
+    
+    public Player(int x, int y, int tileSize, int dx, int dy) {
+        super(x, y, tileSize, tileSize, "player.png", dx, dy);
+        try {
+            HEART = new ImageIcon(getClass().getResource("heart.png")).getImage();
+        }
+        catch (Exception e) {
+            System.out.println("Error loading heart image: " + e.getMessage());
+        }
+    }
 
     @Override
     public void draw(Graphics2D g2){
@@ -49,34 +55,16 @@ public class Player extends GameEntity{
         return this.lives == 0;
     }
 
-    // public int getX(){
-    //     return x;
-    // }
-
-    // public int getY(){
-    //     return y;
-    // }
-
-    //  public int getDX(){
-    //     return DX;
-    // } 
-
-    // public int getDY(){
-    //     return DY;
-    // }
-
     public void setDirection(char direction){
         this.direction = direction;
     }
-    
-    public void resetPosition(){
-        super.setX(30); 
-        super.setY(20);
+
+    public void resetPosition(int startX, int startY){
+        super.setX(startX); 
+        super.setY(startY);
     }
     @Override
-    public void move(/*int[][] tileMap, int tileWidth, int tileHeight*/){
-        // int playerTileX = x / tileWidth;
-        // int playerTileY = y / tileHeight;
+    public void move(){ 
 
         if (direction == 'W' && super.getY() < 0) {
             return; // Blocked moving up

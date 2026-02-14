@@ -6,11 +6,9 @@ package model;
  */
 
 public class Enemy extends GameEntity{
-    public Enemy(int x, int y, int width, int height, int dx, int dy) {
-        super(x, y, width, height, "zombie.png", dx, dy);
+    public Enemy(int x, int y, int tileSize, int dx, int dy) {
+        super(x, y, tileSize, tileSize, "zombie.png", dx, dy);
     }
-
-
 
     public boolean willCollideX(GameEntity b) {
         int nextX = getX() + getDX();
@@ -43,5 +41,9 @@ public class Enemy extends GameEntity{
     public void flipY(){
         setDY(-getDY());
     }
+	public void setPosition(int x, int y) {
+		setX(x);
+		setY(y);
+	}
 
 }

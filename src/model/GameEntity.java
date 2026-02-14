@@ -22,7 +22,12 @@ public abstract class GameEntity {
         this.imageSource = imageSource;
         this.dx = dx;
         this.dy = dy;
-        EntityImg = new ImageIcon(getClass().getResource(this.imageSource)).getImage();
+        try {
+            EntityImg = new ImageIcon(getClass().getResource(this.imageSource)).getImage();
+        }
+        catch (Exception e) {
+            System.out.println("Image not found: " + this.imageSource);
+        }
     }
 
     public Image getImage(){
