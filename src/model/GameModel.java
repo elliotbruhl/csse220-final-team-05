@@ -189,6 +189,7 @@ public class GameModel {
         items.clear();
         enemies.clear();
         blocks.clear();
+        winzones.clear();
     }
     public GameEntity getPlayer() { return player; }
     public ArrayList<GameEntity> getItems() { return items; }
