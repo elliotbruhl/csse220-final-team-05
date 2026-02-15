@@ -43,6 +43,7 @@ public class GameComponent extends JComponent {
 			model.resetLevel();
 			this.model = new GameModel();
 			model.startGame();
+			timer.start();
 
 		});
 
@@ -90,7 +91,7 @@ public class GameComponent extends JComponent {
 				quitButton.setVisible(true);
 				timer.stop();
 			}
-			else{
+			else {
 				timer.stop();
 			}
 			for	(GameEntity enemy : model.getEnemies()){
