@@ -85,6 +85,8 @@ public class GameComponent extends JComponent {
 			else if (model.playerFinishGame() || model.playerLosingGame()){
 				yesButton.setVisible(true);
 				noButton.setVisible(true);
+				timer.stop();
+
 			}
 			else if (model.playerWinGame()){
 				continueButton.setVisible(true);

@@ -117,6 +117,10 @@ public class GameModel {
     public void draw(Graphics2D g2){
         wall.draw(g2);
         player.draw(g2);
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("Serif", Font.BOLD, 20));
+        g2.drawString("Level: " + currentLevel, 250, 17);
+        g2.setFont(new Font("Arial", Font.BOLD, 25));
         for (GameEntity enemy : enemies){
             enemy.draw(g2);
         }
