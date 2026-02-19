@@ -3,7 +3,6 @@ package model;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 
 /**
@@ -23,7 +22,7 @@ public class Wall {
     public Wall(ArrayList<GameEntity> blocksMap, ArrayList<GameEntity> winzones){
         blocks = blocksMap;
         winZones = winzones;
-    }  
+    }
     
     public ArrayList<GameEntity> getWallBlocks(){
     	return blocks;
@@ -38,12 +37,20 @@ public class Wall {
             g2.drawImage(BLOCK_IMG, blocks.get(i).getX(), blocks.get(i).getY(),
                         blocks.get(i).getWidth(), blocks.get(i).getHeight(), null);
         }
-        g2.drawImage(DOOR_IMG, winZones.get(0).getX(), winZones.get(0).getY(), 
-                        winZones.get(0).getWidth(), winZones.get(0).getHeight(), null);
+
+        if (!winZones.isEmpty()) {
+            GameEntity door = winZones.get(0);
+            g2.drawImage(DOOR_IMG, door.getX(), door.getY(),
+                        door.getWidth(), door.getHeight(), null);
+        }
     }
 
     public void drawDoor(Graphics2D g2){
-        g2.drawImage(OPENING_DOOR, winZones.get(0).getX(), winZones.get(0).getY(), 
-                        winZones.get(0).getWidth(), winZones.get(0).getHeight(), null);
+        if (!winZones.isEmpty()) {
+            GameEntity door = winZones.get(0);
+            g2.drawImage(OPENING_DOOR, door.getX(), door.getY(),
+                        door.getWidth(), door.getHeight(), null);
+        }
     }
+
 }

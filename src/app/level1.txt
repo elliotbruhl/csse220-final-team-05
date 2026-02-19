@@ -7,7 +7,7 @@ X....XXXX....I....XX
 X....XXXX.........XX
 X............XXXX..X
 X............XXXX..X
-XXXXXXX......E.....WX
+XXXXXXX......E....WX
 XXXXXXX............X
 XXXXXXX.....XXXXXXXX
 X...........XXXXXXXX

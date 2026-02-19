@@ -1,5 +1,5 @@
 XXXXXXXXXXXXXXXXXXXXX
-X....XXXX......I..WXX
+X.P..XXXX......I..WXX
 X....XXXX..........XX
 X....XXXX..XXXX....XX
 X.........XXXX.....XX
@@ -15,6 +15,6 @@ X.....I....XXXXXXX..X
 X..............E....X
 X..XXXXXXXX.........X
 X..XXXXXXXX..XXXX...X
-X.P........I.XXXX...X
+X..........I.XXXX...X
 X................XX.X
 XXXXXXXXXXXXXXXXXXXXX

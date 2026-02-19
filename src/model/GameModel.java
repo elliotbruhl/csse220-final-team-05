@@ -1,11 +1,11 @@
 package model;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.awt.Font;
-import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GameModel {
     private boolean gameStarted = false;
@@ -17,13 +17,13 @@ public class GameModel {
     private ArrayList<GameEntity> blocks;
     private ArrayList<GameEntity> winzones;
     private int maxLevel = 3;
-    private static int currentLevel;
+    private int currentLevel;
     public int getCurrentLevel() {return currentLevel;}
     private final int TILE_SIZE = 30;
     private int startX;
     private int startY;
     public GameModel(){
-        currentLevel ++;
+        currentLevel = 1;
         blocks = new ArrayList<>();
         enemies = new ArrayList<>();
         items = new ArrayList<>();
@@ -62,7 +62,7 @@ public class GameModel {
 
     }
     public void loadLevel() {
-	    File file = new File("level" + currentLevel + ".txt");
+	    File file = new File("src/app/level" + currentLevel + ".txt");
         int x = 0;
         int y = 0;
 	    try {
@@ -106,6 +106,9 @@ public class GameModel {
             catch (FileNotFoundException e1) {
 			System.out.println("level" + currentLevel + ".txt not found");
 		}
+        if (winzones.isEmpty()) {
+            throw new IllegalStateException("Level must have at least one win zone");
+        }
     }
     public boolean handleCollision(GameEntity a, GameEntity b){
         return  a.getX() < b.getX() + b.getWidth() &&
@@ -175,6 +178,7 @@ public class GameModel {
         blocks.clear();
         winzones.clear();
         enemies.clear();
+        items.clear();
     }
 
     public boolean playerFinishGame(){
@@ -183,10 +187,18 @@ public class GameModel {
 
     public void resetLevel(){
         currentLevel = 0;
+        clearCurrentEntity();
+        loadLevel();
+        wall = new Wall(blocks, winzones);
+        resetPlayerPosition();
     }
 
     public void nextLevel(){
         currentLevel++;
+        clearCurrentEntity();
+        loadLevel();
+        wall = new Wall(blocks, winzones);
+        resetPlayerPosition();
     }
 
     public void clearGameEntity(){
