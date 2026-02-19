@@ -9,10 +9,10 @@ X.........XXXXXXX...X
 X....XXXX.....I.....X
 X....XXXX...........X
 X....XXXX..XXXXXXXXXX
-X...........E.......X
+X...................X
 XXXXXXX....XXXXXXX..X
 X.....I....XXXXXXX..X
-X...................X
+X..............E....X
 X..XXXXXXXX.........X
 X..XXXXXXXX..XXXX...X
 X.P........I.XXXX...X

@@ -1,9 +1,6 @@
 package ui;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -40,6 +37,7 @@ public class GameComponent extends JComponent {
 		quitButton.setBounds(310, 320, 100, 40);
 
 		yesButton.addActionListener(e -> {
+			setFocusable(true);
 			model.resetLevel();
 			this.model = new GameModel();
 			model.startGame();
@@ -51,6 +49,7 @@ public class GameComponent extends JComponent {
 			System.exit(0);
 		});
 		continueButton.addActionListener(e -> {
+			setFocusable(true);
 			model.clearGameEntity();
 			model.nextLevel();
 			model.loadLevel();
@@ -83,12 +82,14 @@ public class GameComponent extends JComponent {
 				repaint();
 			}
 			else if (model.playerFinishGame() || model.playerLosingGame()){
+				setFocusable(false);
 				yesButton.setVisible(true);
 				noButton.setVisible(true);
 				timer.stop();
 
 			}
 			else if (model.playerWinGame()){
+				setFocusable(false);
 				continueButton.setVisible(true);
 				quitButton.setVisible(true);
 				timer.stop();
